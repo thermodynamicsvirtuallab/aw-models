@@ -1,0 +1,4 @@
+data/converted/abderafi_94_glucose_fructose.csv,data/converted/abderafi_94_glucose.csv,data/converted/abderafi_94_fructose.csv
+data/converted/abderafi_94_sucrose_fructose.csv,data/converted/abderafi_94_sucrose.csv,data/converted/abderafi_94_fructose.csv
+data/converted/abderafi_94_sucrose_glucose.csv,data/converted/abderafi_94_sucrose.csv,data/converted/abderafi_94_glucose.csv
+data/converted/stokes_61_sucrose_mannitol.csv,data/converted/stokes_61_sucrose.csv,data/converted/stokes_61_mannitol.csv

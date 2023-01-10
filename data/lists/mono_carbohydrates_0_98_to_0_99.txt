@@ -1,0 +1,13 @@
+data/converted/chen_87_sucrose.csv,0.980833
+data/converted/ebrahimi_16_arabinose.csv,0.984654
+data/converted/ebrahimi_16_galactose.csv,0.986496
+data/converted/ebrahimi_16_maltose_monohydrate.csv,0.987360
+data/converted/ebrahimi_16_ribose.csv,0.984620
+data/converted/ebrahimi_16_sorbitol.csv,0.983317
+data/converted/ebrahimi_16_sucrose.csv,0.981041
+data/converted/ebrahimi_16_xylose.csv,0.981913
+data/converted/velezmoro_00_maltose_25_C.csv,0.987200
+data/converted/velezmoro_00_maltose_30_C.csv,0.985333
+data/converted/velezmoro_00_maltose_35_C.csv,0.984444
+data/converted/velezmoro_00_sucrose_25_C.csv,0.982615
+data/converted/velezmoro_00_sucrose_30_C.csv,0.981385

@@ -1,0 +1,351 @@
+#! /usr/bin/env bash
+
+get_number_of_components () {
+
+	filename=$1
+
+	tail -n 1 "$filename" \
+		| cut -d ',' -f 2- \
+		| tr ',' '\n' \
+		| wc -l
+}
+
+filter_cost () {
+
+	echo "$1" \
+		| grep final \
+		| cut -d '=' -f 2 \
+		| tr -d '\ \t'
+
+}
+
+filter_parameters () {
+
+	echo "$1" \
+		| grep -v "read" \
+		| grep "$2" \
+		| cut -d '=' -f 2 \
+		| cut -d '/' -f 1 \
+		| sed -e 's/\+$//g' \
+		| tr -d '\ \t' \
+		| datamash mean 1 \
+		| sed -e 's/e-\([0-9]*\)/\\times10^{-\1}/g' \
+		| sed -e 's/\^{-0/^{-/g'
+
+}
+
+print_table_binary () {
+
+	filename="$1"
+	first_comp_name="$2"
+
+	label=tab_"$(echo "$filename" | cut -d '.' -f 1 | cut -d '/' -f 3)"
+
+	if [ "$label" != "tab_romero_06_dl_alpha_aminobutyric_acid_288_15_K" ]
+	then
+		MVAL=200000
+	else
+		MVAL=200
+	fi
+
+	raoult_results="$(
+		./bin/FitWaterActivity -m raoult -f "$filename" -q
+	)"
+	virial_results="$(
+		./bin/FitWaterActivity -m virial -f "$filename" -M "$MVAL" -q
+	)"
+	norrish_results="$(
+		./bin/FitWaterActivity -m norrish -f "$filename" -M "$MVAL" -q
+	)"
+	uniquac_results="$(
+		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q
+	)"
+
+	AVGAW="$(
+		echo "$raoult_results" \
+			| grep activity \
+			| cut -d '=' -f 2 \
+			| tr -d '\ \t'
+	)"
+	AVGXW="$(
+		echo "$raoult_results" \
+			| grep dilution \
+			| cut -d '=' -f 2 \
+			| tr -d '\ \t'
+	)"
+	CRAOULT="$(
+		filter_cost "$raoult_results"
+	)"
+
+	B1="$(
+		filter_parameters "$virial_results" "b_0 "
+	)"
+	CVIRIAL="$(
+		filter_cost "$virial_results"
+	)"
+
+	K1="$(
+		filter_parameters "$norrish_results" "K_0 "
+	)"
+	CNORRISH="$(
+		filter_cost "$norrish_results"
+	)"
+
+	QWATER="$(
+		filter_parameters "$uniquac_results" "q_0 "
+	)"
+	UWATER="$(
+		filter_parameters "$uniquac_results" "u_00 "
+	)"
+	Q1="$(
+		filter_parameters "$uniquac_results" "q_1 "
+	)"
+	U1="$(
+		filter_parameters "$uniquac_results" "u_11 "
+	)"
+	CUNIQUAC="$(
+		filter_cost "$uniquac_results"
+	)"
+
+
+
+	echo \\tablemonofirst{"$K1"}{"$QWATER"}{"$UWATER"}{"$Q1"}{"$U1"}
+	echo \\tablemonosecond{"$first_comp_name"}{"$label"}{"$CRAOULT"}{"$CVIRIAL"}%
+	echo -en "\t"
+	echo {"$CUNIQUAC"}{"$CNORRISH"}{"$AVGAW"}{"$AVGXW"}{"$B1"}
+
+
+}
+
+print_table_ternary () {
+
+	filename="$1"
+	first_comp_name="$2"
+	second_comp_name="$3"
+
+	label=tab_"$(echo "$filename" | cut -d '.' -f 1 | cut -d '/' -f 3)"
+
+	MVAL=200000
+
+	raoult_results="$(
+		./bin/FitWaterActivity -m raoult -f "$filename" -q
+	)"
+	virial_results="$(
+		./bin/FitWaterActivity -m virial -f "$filename" -M "$MVAL" -q
+	)"
+	norrish_results="$(
+		./bin/FitWaterActivity -m norrish -f "$filename" -M "$MVAL" -q
+	)"
+	uniquac_results="$(
+		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q
+	)"
+
+	AVGAW="$(
+		echo "$raoult_results" \
+			| grep activity \
+			| cut -d '=' -f 2 \
+			| tr -d '\ \t'
+	)"
+	AVGXW="$(
+		echo "$raoult_results" \
+			| grep dilution \
+			| cut -d '=' -f 2 \
+			| tr -d '\ \t'
+	)"
+	CRAOULT="$(
+		filter_cost "$raoult_results"
+	)"
+
+	B1="$(
+		filter_parameters "$virial_results" "b_0 "
+	)"
+	B2="$(
+		filter_parameters "$virial_results" "b_1 "
+	)"
+	C12="$(
+		filter_parameters "$virial_results" "c_2 "
+	)"
+	CVIRIAL="$(
+		filter_cost "$virial_results"
+	)"
+
+	K1="$(
+		filter_parameters "$norrish_results" "K_0 "
+	)"
+	K2="$(
+		filter_parameters "$norrish_results" "K_1 "
+	)"
+	CNORRISH="$(
+		filter_cost "$norrish_results"
+	)"
+
+	QWATER="$(
+		filter_parameters "$uniquac_results" "q_0 "
+	)"
+	UWATER="$(
+		filter_parameters "$uniquac_results" "u_00 "
+	)"
+	Q1="$(
+		filter_parameters "$uniquac_results" "q_1 "
+	)"
+	Q2="$(
+		filter_parameters "$uniquac_results" "q_2 "
+	)"
+	U1="$(
+		filter_parameters "$uniquac_results" "u_11 "
+	)"
+	U2="$(
+		filter_parameters "$uniquac_results" "u_22 "
+	)"
+	CUNIQUAC="$(
+		filter_cost "$uniquac_results"
+	)"
+
+
+
+	echo \\tablebifirst{"$B1"}{"$B2"}{"$C12"}{"$K1"}{"$K2"}%
+	echo -en "\t"
+	echo {"$QWATER"}{"$UWATER"}{"$Q1"}{"$U1"}
+	echo \\tablebisecond{"$Q2"}{"$U2"}
+	echo \\tablebithird{"$first_comp_name"}{"$second_comp_name"}{"$label"}%
+	echo -en "\t"
+	echo {"$AVGAW"}{"$AVGXW"}{"$CVIRIAL"}{"$CNORRISH"}{"$CUNIQUAC"}{"$CRAOULT"}
+
+
+}
+
+print_table_quaternary () {
+
+	filename="$1"
+	first_comp_name="$2"
+	second_comp_name="$3"
+	third_comp_name="$4"
+
+	label=tab_"$(echo "$filename" | cut -d '.' -f 1 | cut -d '/' -f 3)"
+
+	MVAL=200000
+
+	raoult_results="$(
+		./bin/FitWaterActivity -m raoult -f "$filename" -q
+	)"
+	virial_results="$(
+		./bin/FitWaterActivity -m virial -f "$filename" -M "$MVAL" -q
+	)"
+	norrish_results="$(
+		./bin/FitWaterActivity -m norrish -f "$filename" -M "$MVAL" -q
+	)"
+	uniquac_results="$(
+		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q
+	)"
+
+	AVGAW="$(
+		echo "$raoult_results" \
+			| grep activity \
+			| cut -d '=' -f 2 \
+			| tr -d '\ \t'
+	)"
+	AVGXW="$(
+		echo "$raoult_results" \
+			| grep dilution \
+			| cut -d '=' -f 2 \
+			| tr -d '\ \t'
+	)"
+	CRAOULT="$(
+		filter_cost "$raoult_results"
+	)"
+
+	B1="$(
+		filter_parameters "$virial_results" "b_0 "
+	)"
+	B2="$(
+		filter_parameters "$virial_results" "b_1 "
+	)"
+	B3="$(
+		filter_parameters "$virial_results" "b_3 "
+	)"
+	C12="$(
+		filter_parameters "$virial_results" "c_2 "
+	)"
+	C13="$(
+		filter_parameters "$virial_results" "c_4 "
+	)"
+	C23="$(
+		filter_parameters "$virial_results" "c_5 "
+	)"
+	CVIRIAL="$(
+		filter_cost "$virial_results"
+	)"
+
+	K1="$(
+		filter_parameters "$norrish_results" "K_0 "
+	)"
+	K2="$(
+		filter_parameters "$norrish_results" "K_1 "
+	)"
+	K3="$(
+		filter_parameters "$norrish_results" "K_2 "
+	)"
+	CNORRISH="$(
+		filter_cost "$norrish_results"
+	)"
+
+	QWATER="$(
+		filter_parameters "$uniquac_results" "q_0 "
+	)"
+	UWATER="$(
+		filter_parameters "$uniquac_results" "u_00 "
+	)"
+	Q1="$(
+		filter_parameters "$uniquac_results" "q_1 "
+	)"
+	Q2="$(
+		filter_parameters "$uniquac_results" "q_2 "
+	)"
+	Q3="$(
+		filter_parameters "$uniquac_results" "q_3 "
+	)"
+	U1="$(
+		filter_parameters "$uniquac_results" "u_11 "
+	)"
+	U2="$(
+		filter_parameters "$uniquac_results" "u_22 "
+	)"
+	U3="$(
+		filter_parameters "$uniquac_results" "u_33 "
+	)"
+	CUNIQUAC="$(
+		filter_cost "$uniquac_results"
+	)"
+
+
+
+	echo \\tabletrifirst{"$B1"}{"$B2"}{"$C12"}{"$B3"}%
+	echo -en "\t"
+	echo {"$C13"}{"$C23"}{"$K1"}{"$K2"}{"$K3"}
+	echo \\tabletrisecond{"$QWATER"}{"$UWATER"}{"$Q1"}{"$U1"}{"$Q2"}%
+	echo -en "\t"
+	echo {"$U2"}{"$Q3"}{"$U3"}{"$third_comp_name"}
+	echo \\tabletrithird{"$first_comp_name"}{"$second_comp_name"}{"$label"}%
+	echo -en "\t"
+	echo {"$AVGAW"}{"$AVGXW"}{"$CNORRISH"}{"$CVIRIAL"}{"$CUNIQUAC"}{"$CRAOULT"}
+
+
+}
+
+no=$(get_number_of_components $1)
+
+case "$no" in
+	"1")
+		print_table_binary	"$1" "$2"
+		;;
+	"2")
+		print_table_ternary	"$1" "$2" "$3"
+		;;
+	"3")
+		print_table_quaternary	"$1" "$2" "$3" "$4"
+		;;
+	*)
+		;;
+esac
+
+

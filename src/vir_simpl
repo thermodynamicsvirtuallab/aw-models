@@ -1,0 +1,108 @@
+#! /usr/bin/env bash
+
+#
+# This script checks the correlative power of a simplified version of
+# the virial model.
+#
+
+make_csv_line () {
+
+	(
+	./bin/FitWaterActivity -f $1 -m raoult -q | grep final;
+	./bin/FitWaterActivity -f $1 -m norrish -M 200000 -q | grep final;
+	./bin/FitWaterActivity -f $1 -m uniquac -M 200000 -q | grep final;
+	./bin/FitWaterActivity -f $1 -m virial -M 200000 -K "${@:2}" -q
+	) | grep cost \
+		| cut -d '=' -f 2 \
+		| tr -d ' ' \
+		| tr '\n' ',' \
+		| sed -e 's/,$/\n/g'
+}
+
+filter () {
+
+	echo "$@" \
+		| tr '\ ' '\n' \
+		| grep b_0 -A 2 \
+		| tail -n 1
+
+}
+
+get_b () {
+	filter $(./bin/FitWaterActivity -f $1 -m virial 2>&1)
+}
+
+# Analyse data from Abderafi (1994)
+
+abderafi () {
+	b_fructose=$(get_b data/converted/abderafi_94_fructose.csv)
+	b_glucose=$(get_b data/converted/abderafi_94_glucose.csv)
+	b_sucrose=$(get_b data/converted/abderafi_94_sucrose.csv)
+
+	make_csv_line \
+		data/converted/abderafi_94_sucrose_glucose.csv \
+			$b_sucrose $b_glucose 0.0
+
+	make_csv_line \
+		data/converted/abderafi_94_sucrose_fructose.csv \
+			$b_sucrose $b_fructose 0.0
+
+	make_csv_line \
+		data/converted/abderafi_94_glucose_fructose.csv \
+			$b_glucose $b_fructose 0.0
+
+	make_csv_line \
+		data/converted/abderafi_94_sucrose_glucose_fructose.csv \
+			$b_sucrose $b_glucose 0.0 $b_fructose 0.0 0.0
+
+}
+
+#
+# And from Stokes (1961)
+#
+
+stokes () {
+	b_sucrose=$(get_b data/converted/stokes_61_sucrose.csv)
+	b_mannitol=$(get_b data/converted/stokes_61_mannitol.csv)
+
+	make_csv_line \
+		data/converted/stokes_61_sucrose_mannitol.csv \
+			$b_sucrose $b_mannitol 0.0
+}
+
+#
+# And finally from Velezmoro (2000)
+#
+
+velezmoro () {
+	for temp in 25 30 35; do
+		b_fructose=$(get_b data/converted/velezmoro_00_fructose_"$temp"_C.csv)
+		b_glucose=$(get_b data/converted/velezmoro_00_glucose_"$temp"_C.csv)
+		b_sucrose=$(get_b data/converted/velezmoro_00_sucrose_"$temp"_C.csv)
+
+		make_csv_line \
+			data/converted/velezmoro_00_fructose_glucose_sucrose_"$temp"_C.csv \
+				$b_fructose $b_glucose 0.0 $b_sucrose 0.0 0.0
+	done
+}
+
+main () {
+	printf \
+	"+------------+------------+------------+------------+------------+\n"
+	printf "|   Raoult   "
+	printf "|   Norrish  "
+	printf "|  UNIQUAC   "
+	printf "| Virial (S) "
+	printf "| Virial (C) |\n"
+	printf \
+	"| ---------- | ---------- | ---------- | ---------- | ---------- |\n"
+	(abderafi; stokes; velezmoro) \
+		| datamash mean 1-5 -t ',' -R 6 \
+		| sed -e 's/^/|  /g' \
+		| sed -e 's/,/  |  /g' \
+		| sed -e 's/$/  |/g'
+	printf \
+	"+------------+------------+------------+------------+------------+\n"
+}
+
+main "$@"

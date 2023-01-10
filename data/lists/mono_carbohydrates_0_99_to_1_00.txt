@@ -1,0 +1,9 @@
+data/converted/chen_87_lactose.csv,0.995750
+data/converted/ebrahimi_16_lactose_monohydrate.csv,0.993773
+data/converted/ebrahimi_16_raffinose_pentahydrate.csv,0.993769
+data/converted/kiyosawa_92_1_2_3_4_butanetetrol.csv,0.994948
+data/converted/kiyosawa_92_1_2_3_propanetriol.csv,0.994986
+data/converted/kiyosawa_92_1_2_ethanediol.csv,0.994486
+data/converted/kiyosawa_92_d_mannitol.csv,0.994997
+data/converted/kiyosawa_92_xylitol.csv,0.995029
+data/converted/stokes_61_mannitol.csv,0.992993

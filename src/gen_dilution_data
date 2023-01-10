@@ -1,0 +1,19 @@
+#! /usr/bin/env bash
+
+echo 'aw,xw,norrish,virial,uniquac,raoult,caurie' > doc/dilution_mono.csv
+
+for file in $(cat data/lists/mono_all.csv)
+do
+	Mval="$(echo "$file" \
+		| grep romero_06_dl_alpha_aminobutyric_acid_288_15_K >/dev/null \
+			|| echo 200000 \
+			&& echo 200)"
+	./bin/FitWaterActivity -m all -f "$file" -O -q -M "$Mval" \
+		| grep -v read \
+		| sed -e 's/for/:/g' \
+		| sed -e 's/=/:/g' \
+		| cut -d ':' -f 3 \
+		| tr -d '\ \t' \
+		| tr '\n' ',' \
+		| sed -e 's/,$/\n/g'
+done >> doc/dilution_mono.csv

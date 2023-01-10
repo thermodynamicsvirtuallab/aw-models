@@ -1,0 +1,6 @@
+data/converted/bonner_82_lysine.csv,0.968129
+data/converted/ninni_01_glycine.csv,0.977857
+data/converted/ninni_01_l_proline.csv,0.945500
+data/converted/pinho_08_glycine.csv,0.972680
+data/converted/pinho_08_serine.csv,0.970000
+data/converted/tsurko_07_glycine_298_15.csv,0.979410

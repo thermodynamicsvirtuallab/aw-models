@@ -1,0 +1,11 @@
+data/converted/abderafi_94_fructose.csv,0.848284
+data/converted/abderafi_94_sucrose.csv,0.840122
+data/converted/bhandari_03_glucose.csv,0.818200
+data/converted/cooke_02_fructose.csv,0.877219
+data/converted/cooke_02_sorbitol.csv,0.850933
+data/converted/maximo_10_d_fructose_20_0_kPa.csv,0.898410
+data/converted/maximo_10_d_fructose_26_7_kPa.csv,0.894450
+data/converted/maximo_10_d_fructose_33_3_kPa.csv,0.896828
+data/converted/maximo_10_d_fructose_46_7_kPa.csv,0.898199
+data/converted/maximo_10_d_fructose_93_6_kPa.csv,0.897906
+data/converted/maximo_10_d_fructose.csv,0.848284

@@ -1,0 +1,9 @@
+data/converted/ebrahimi_16_fructose.csv,0.978989
+data/converted/ebrahimi_16_glucose.csv,0.979187
+data/converted/ebrahimi_16_maltitol.csv,0.979552
+data/converted/ebrahimi_16_mannose.csv,0.979888
+data/converted/ebrahimi_16_xylitol.csv,0.979718
+data/converted/stokes_61_sucrose.csv,0.971910
+data/converted/velezmoro_00_glucose_25_C.csv,0.972667
+data/converted/velezmoro_00_glucose_30_C.csv,0.971833
+data/converted/velezmoro_00_sucrose_35_C.csv,0.978083

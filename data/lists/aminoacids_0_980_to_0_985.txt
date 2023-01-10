@@ -1,0 +1,5 @@
+data/converted/ellerton_64_lactamide.csv,0.983625
+data/converted/kuramochi_97_glycine.csv,0.984975
+data/converted/ninni_01_dl_alanine.csv,0.983000
+data/converted/pinho_08_alanine.csv,0.982160
+data/converted/tsurko_07_glycine_310_15.csv,0.981926

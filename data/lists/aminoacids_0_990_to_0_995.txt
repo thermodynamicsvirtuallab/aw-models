@@ -1,0 +1,10 @@
+data/converted/ellerton_64_alpha_amino_n_butyric_acid.csv,0.990258
+data/converted/ellerton_64_glycylglycine.csv,0.993207
+data/converted/himanshu_05_dl_alanine.csv,0.994064
+data/converted/himanshu_05_dl_valine.csv,0.993979
+data/converted/himanshu_05_hydroxy_l_proline.csv,0.994245
+data/converted/himanshu_05_l_proline.csv,0.994190
+data/converted/himanshu_05_l_serine.csv,0.994400
+data/converted/himanshu_05_l_threonine.csv,0.994017
+data/converted/kuramochi_97_l_valine.csv,0.994129
+data/converted/ninni_01_l_arginine.csv,0.993667

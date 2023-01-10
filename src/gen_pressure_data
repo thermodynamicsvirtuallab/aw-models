@@ -1,0 +1,16 @@
+#! /usr/bin/env bash
+
+echo "pressure,raoult,virial" > doc/pressure_fructose.csv
+echo "pressure,raoult,virial" > doc/pressure_glucose.csv
+
+for file in $(ls data/converted/maximo_10_d_* | grep kPa)
+do
+	sugar=$(echo "$file" | cut -d '_' -f 4)
+	(
+	echo "$file" | cut -d '_' -f 5,6 | tr '_' '.' | tr '\n' ','
+	./bin/FitWaterActivity -m raoult -f "$file" \
+		| grep final | tr -cd '[0-9]\.\n' | tr '\n' ','
+	./bin/FitWaterActivity -m virial -f "$file" -q \
+		| grep final | tr -cd '[0-9]\.\n'
+	) >> doc/pressure_"$sugar".csv
+done

@@ -1,0 +1,3 @@
+For sucrose: T is 298.06K
+For everything else: T is 317.99K
+

@@ -1,0 +1,16 @@
+data/converted/bonner_82_arginine.csv,0.989437
+data/converted/ellerton_64_glycine.csv,0.988097
+data/converted/kuramochi_97_l_alanine.csv,0.989778
+data/converted/kuramochi_97_l_serine.csv,0.985046
+data/converted/romero_06_dl_alanine_288_15_K.csv,0.989730
+data/converted/romero_06_dl_alanine_293_15_K.csv,0.988027
+data/converted/romero_06_dl_alanine_298_15_K.csv,0.989773
+data/converted/romero_06_dl_alanine_303_15_K.csv,0.989115
+data/converted/romero_06_dl_alpha_aminobutyric_acid_288_15_K.csv,0.989911
+data/converted/romero_06_dl_alpha_aminobutyric_acid_293_15_K.csv,0.988254
+data/converted/romero_06_dl_alpha_aminobutyric_acid_298_15_K.csv,0.989775
+data/converted/romero_06_dl_alpha_aminobutyric_acid_303_15_K.csv,0.989020
+data/converted/romero_06_glycine_288_15_K.csv,0.989767
+data/converted/romero_06_glycine_293_15_K.csv,0.988254
+data/converted/romero_06_glycine_298_15_K.csv,0.989278
+data/converted/romero_06_glycine_303_15_K.csv,0.989469

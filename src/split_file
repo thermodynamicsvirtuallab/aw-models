@@ -1,0 +1,19 @@
+#! /usr/bin/env bash
+
+# This script splits a file in test and traing subsets.
+
+original_file=$1
+training_file=$2
+test_file=$3
+percent_to_test=$4
+
+original_no_of_lines=$(($(wc -l $original_file | cut -d ' ' -f 1) - 1))
+test_no_of_lines=$(( ($percent_to_test * $original_no_of_lines) / 100 ))
+training_no_of_lines=$(( $original_no_of_lines - $test_no_of_lines ))
+
+header=$(head -n 1 $original_file)
+grep [a-z] <$original_file > $test_file
+grep [a-z] <$original_file > $training_file
+grep -v [a-z] <$original_file | shuf -n $test_no_of_lines | sort -nr >> $test_file
+grep -v -f $test_file $original_file >> $training_file
+

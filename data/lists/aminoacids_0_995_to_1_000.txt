@@ -1,0 +1,8 @@
+data/converted/ellerton_64_valine.csv,0.996441
+data/converted/himanshu_05_dl_methionine.csv,0.998039
+data/converted/himanshu_05_glycine.csv,0.995654
+data/converted/himanshu_05_l_isoleucine.csv,0.997347
+data/converted/tsurko_07_glutamic_acid_298_15.csv,0.999496
+data/converted/tsurko_07_glutamic_acid_310_15.csv,0.999489
+data/converted/tsurko_07_histidine_298_15.csv,0.996763
+data/converted/tsurko_07_histidine_310_15.csv,0.998217

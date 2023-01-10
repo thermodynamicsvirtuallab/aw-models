@@ -1,0 +1,10 @@
+data/converted/abderafi_94_glucose_fructose.csv
+data/converted/abderafi_94_sucrose_fructose.csv
+data/converted/abderafi_94_sucrose_glucose.csv
+data/converted/norrish_66_sorbitol_sucrose.csv
+data/converted/norrish_66_sucrose_glycerol.csv
+data/converted/stokes_61_sucrose_mannitol.csv
+data/converted/stokes_66_sucrose_arabinose_ref_sucrose.csv
+data/converted/stokes_66_sucrose_glucose_ref_sucrose.csv
+data/converted/stokes_66_sucrose_glycerol_ref_sucrose.csv
+data/converted/stokes_66_sucrose_sorbitol_ref_sucrose.csv
