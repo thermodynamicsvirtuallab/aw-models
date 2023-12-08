@@ -51,7 +51,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			* therefore, we also need its molar fraction.
 			*/
 
-		r_w = fabs ( gsl_vector_get ( K, 0 ) );
+		get_q_and_r (data, data->description.components[i],
+				&q_w, &r_w);
 		l_w = 1 - r_w;
 			/*
 			* l = (z/2) * (r-q) - (r-1)
@@ -59,18 +60,17 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			*/
 		sumxjlj = x_w * l_w;
 
-		q_w = r_w;
 		sumqjxj = q_w * x_w;
 
 		for ( j = 0; j < p; j++ ) {
 
 			x_j = data->x_and_aw.x[i][j];
-			r_j = fabs ( gsl_vector_get ( K, j + 1 ) );
+			get_q_and_r (data, data->description.components[i],
+					&q_j, &r_j);
 			l_j = 1 - r_j;
 			sumxjlj += x_j * l_j;
 			/* here we dealt with the l's and their sum */
 
-			q_j = r_j;
 			sumqjxj += q_j * x_j;
 			/* needed for theta_j */
 		}
@@ -80,7 +80,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 
 		sumthetajtaujw = theta_w; /* = theta_w * tau_ww = theta_w * 1 */
 		for ( j = 0; j < p; j++ ) {
-			q_j = fabs ( gsl_vector_get ( K, j + 1 ) );
+			get_q_and_r (data, data->description.components[i],
+					&q_j, &r_j);
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
 			u_ww = fabs ( gsl_vector_get ( K, p + 1 ) );
@@ -100,7 +101,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 				} else {
 					x_k = data->x_and_aw.x[i][k];
 				}
-				q_k = fabs ( gsl_vector_get ( K, k + 1 ) );
+				get_q_and_r (data, data->description.components[i],
+						&q_k, &r_j);
 				theta_k = ( q_k * x_k ) / sumqjxj;
 				u_kk = fabs ( gsl_vector_get ( K, p + k + 2 ) );
 				u_jj = fabs ( gsl_vector_get ( K, p + j + 2 ) );
@@ -109,7 +111,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 				sumthetaktaukj += theta_k * tau_kj;
 			}
 
-			q_j = fabs ( gsl_vector_get ( K, j + 1 ) );
+			get_q_and_r (data, data->description.components[i],
+					&q_j, &r_j);
 			if ( j == -1 ) {
 				x_j = x_w;
 			} else {
@@ -151,12 +154,12 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			x_j = data->x_and_aw.aw[i];
 			x_w = 1 - x_j;
 
-			r_w = fabs ( gsl_vector_get ( K, 0 ) );
-			q_w = r_w;
+			get_q_and_r (data, data->description.components[i],
+					&q_w, &r_w);
 			l_w = 1 - r_w;
 
-			r_j = fabs ( gsl_vector_get ( K, 1 ) );
-			q_j = r_j;
+			get_q_and_r (data, data->description.components[i],
+					&q_j, &r_j);
 			l_j = 1 - r_j;
 
 			sumxjlj = ( x_w * l_w ) + ( x_j * l_j );
@@ -182,7 +185,9 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 					} else {
 						x_k = data->x_and_aw.aw[i];
 					}
-					q_k = fabs ( gsl_vector_get ( K, k + 1 ) );
+					get_q_and_r (data,
+						data->description.components[i],
+						&q_k, &r_j);
 					theta_k = ( q_k * x_k ) / sumqjxj;
 					u_kk = fabs
 						( gsl_vector_get ( K, p + k + 2 ) );
@@ -194,7 +199,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 					sumthetaktaukj += theta_k * tau_kj;
 				}
 
-				q_j = fabs ( gsl_vector_get ( K, j + 1 ) );
+				get_q_and_r (data, data->description.components[i],
+						&q_j, &r_j);
 				if ( j == -1 ) {
 					x_j = x_w;
 				} else {
@@ -276,9 +282,9 @@ void print_uniquac ( gsl_matrix *covar, gsl_multifit_nlinear_workspace *w,
 		for ( i = -1; i < p; i++ ) {
 			fprintf ( stdout, "\tu_%d%d = %.5e\t+/-\t%.5e\t",
 				i + 1, i + 1,
-				fabs ( gsl_vector_get ( w->x, p + i + 2 ) ),
+				fabs ( gsl_vector_get ( w->x, i + 1 ) ),
 				correction * sqrt ( gsl_matrix_get
-					( covar, p + i + 2, p + i + 2 ) ) );
+					( covar, i + 1, i + 1 ) ) );
 			if ( i != -1 ) {
 				fprintf ( stdout, "(%s)\n",
 					data->description.components[i] );
@@ -350,7 +356,8 @@ void save_uniquac ( System *data, info *user_data,
 			* therefore, we also need its molar fraction.
 			*/
 
-		r_w = fabs ( gsl_vector_get ( x, 0 ) );
+		get_q_and_r (data, data->description.components[i],
+				&q_w, &r_w);
 		l_w = 1 - r_w;
 			/*
 			* l = (z/2) * (r-q) - (r-1)
@@ -358,18 +365,17 @@ void save_uniquac ( System *data, info *user_data,
 			*/
 		sumxjlj = x_w * l_w;
 
-		q_w = r_w;
 		sumqjxj = q_w * x_w;
 
 		for ( j = 0; j < comps; j++ ) {
 
 			x_j = data->x_and_aw.x[i][j];
-			r_j = fabs ( gsl_vector_get ( x, j + 1 ) );
+			get_q_and_r (data, data->description.components[i],
+					&q_j, &r_j);
 			l_j = 1 - r_j;
 			sumxjlj += x_j * l_j;
 			/* here we dealt with the l's and their sum */
 
-			q_j = r_j;
 			sumqjxj += q_j * x_j;
 			/* needed for theta_j */
 		}
@@ -379,7 +385,8 @@ void save_uniquac ( System *data, info *user_data,
 
 		sumthetajtaujw = theta_w; /* = theta_w * tau_ww = theta_w * 1 */
 		for ( j = 0; j < comps; j++ ) {
-			q_j = fabs ( gsl_vector_get ( x, j + 1 ) );
+			get_q_and_r (data, data->description.components[i],
+					&q_j, &r_j);
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
 			u_ww = fabs ( gsl_vector_get ( x, comps + 1 ) );
@@ -400,7 +407,8 @@ void save_uniquac ( System *data, info *user_data,
 				} else {
 					x_k = data->x_and_aw.x[i][k];
 				}
-				q_k = fabs ( gsl_vector_get ( x, k + 1 ) );
+				get_q_and_r (data, data->description.components[i],
+						&q_k, &r_j);
 				theta_k = ( q_k * x_k ) / sumqjxj;
 				u_kk = fabs ( gsl_vector_get ( x, comps + k + 2 ) );
 				u_jj = fabs ( gsl_vector_get ( x, comps + j + 2 ) );
@@ -409,7 +417,8 @@ void save_uniquac ( System *data, info *user_data,
 				sumthetaktaukj += theta_k * tau_kj;
 			}
 
-			q_j = fabs ( gsl_vector_get ( x, j + 1 ) );
+			get_q_and_r (data, data->description.components[i],
+					&q_j, &r_j);
 			if ( j == -1 ) {
 				x_j = x_w;
 			} else {
