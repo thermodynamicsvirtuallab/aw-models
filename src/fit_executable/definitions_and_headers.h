@@ -43,6 +43,7 @@
 #define R 8.314462618
 #define TEMP 298.15
 
+#define Z_COORD 10.0
 #define KNOWN_COMPS 10
 
 /*
@@ -54,7 +55,6 @@ typedef struct {
 	int n_of_comps;
 	int has_aw_data;
 	char **components;
-	char **uniquac_keys;
 	double *q_vals;
 	double *r_vals;
 } Metadata;
@@ -144,8 +144,6 @@ extern double get_R_squared_aw ( gsl_multifit_nlinear_workspace *w, System *data
 extern double get_R_squared_check ( double *errors, System *data );
 extern double get_R_squared_aw_check ( double *errors, System *data );
 extern void analyze_all_models ( System *data, info *user_data );
-extern void get_q_and_r ( System *system, char *comp_name,
-		long double *q, long double *r );
 extern void fill_uniquac ( Metadata *system_description );
 
 /*

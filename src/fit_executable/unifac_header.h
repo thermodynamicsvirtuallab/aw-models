@@ -1,0 +1,139 @@
+# define R_C 0.2195
+# define Q_C 0.0000
+# define R_CH 0.4469
+# define Q_CH 0.2280
+# define R_CH2 0.6744
+# define Q_CH2 0.5400
+# define R_CH2CO 1.4457
+# define Q_CH2CO 1.11800
+# define R_CH2NH2 1.3692
+# define Q_CH2NH2 1.2360
+# define R_CH2S 1.3863
+# define Q_CH2S 1.0600
+# define R_CH3 0.9011
+# define Q_CH3 0.8480
+# define R_CHNH 0.9795
+# define Q_CHNH 0.6240
+# define R_CHNH2 1.1417
+# define Q_CHNH2 0.9240
+# define R_CHO 0.6908
+# define Q_CHO 0.4680
+# define R_CNH2NH 1.4469
+# define Q_CNH2NH 1.092
+# define R_CONH2 1.4515
+# define Q_CONH2 1.248
+# define R_CONHCH2 1.9637
+# define Q_CONHCH2 1.488
+# define R_COOH 1.3013
+# define Q_COOH 1.2240
+# define R_DOH 2.4088
+# define Q_DOH 2.2480
+# define R_H2O 0.920
+# define Q_H2O 1.4000
+# define R_HCO 0.9980
+# define Q_HCO 0.9480
+# define R_IMIDAZOL 2.0260
+# define Q_IMIDAZOL 0.8680
+# define R_NH2 0.6948
+# define Q_NH2 1.150
+# define R_OH 1.000
+# define Q_OH 1.2000
+
+# define R_WATER 1*R_H2O
+# define Q_WATER 1*Q_H2O
+# define R_1_2_3_4_BUTANETETROL 4*R_OH + 2*R_CH2 + 2*R_CH
+# define Q_1_2_3_4_BUTANETETROL 4*Q_OH + 2*Q_CH2 + 2*Q_CH
+# define R_1_2_3_PROPANETRIOL 3*R_OH + 2*R_CH2 + 1*R_CH
+# define Q_1_2_3_PROPANETRIOL 3*Q_OH + 2*Q_CH2 + 1*Q_CH
+# define R_1_2_ETHANEDIOL 1*R_DOH
+# define Q_1_2_ETHANEDIOL 1*Q_DOH
+# define R_ALANINE 1*R_CH3 + 1*R_CHNH2 + 1*R_COOH
+# define Q_ALANINE 1*Q_CH3 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_ALPHA_AMINO_N_BUTYRIC_ACID 1*R_CH3 + 1*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_ALPHA_AMINO_N_BUTYRIC_ACID 1*Q_CH3 + 1*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_ARABINOSE 4*R_OH + 1*R_CH2 + 3*R_CH + 1*R_HCO
+# define Q_ARABINOSE 4*Q_OH + 1*Q_CH2 + 3*Q_CH + 1*Q_HCO
+# define R_ARGININE 1*R_CNH2NH + 3*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_ARGININE 1*Q_CNH2NH + 3*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_DEXTROSE 5*R_OH + 4*R_CH + 1*R_HCO + 1*R_CH2
+# define Q_DEXTROSE 5*Q_OH + 4*Q_CH + 1*Q_HCO + 1*Q_CH2
+# define R_D_FRUCTOSE 5*R_OH + 3*R_CH + 1*R_CH2 + 1*R_CH2CO
+# define Q_D_FRUCTOSE 5*Q_OH + 3*Q_CH + 1*Q_CH2 + 1*Q_CH2CO
+# define R_D_GLUCOSE 5*R_OH + 4*R_CH + 1*R_HCO + 1*R_CH2
+# define Q_D_GLUCOSE 5*Q_OH + 4*Q_CH + 1*Q_HCO + 1*Q_CH2
+# define R_DL_ALANINE 1*R_CH3 + 1*R_CHNH2 + 1*R_COOH
+# define Q_DL_ALANINE 1*Q_CH3 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_DL_ALPHA_AMINOBUTYRIC_ACID 1*R_CH3 + 1*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_DL_ALPHA_AMINOBUTYRIC_ACID 1*Q_CH3 + 1*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_DL_METHIONINE 1*R_CH3 + 1*R_CH2S + 1*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_DL_METHIONINE 1*Q_CH3 + 1*Q_CH2S + 1*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_DL_VALINE 2*R_CH3 + 1*R_CH + 1*R_CHNH2 + 1*R_COOH
+# define Q_DL_VALINE 2*Q_CH3 + 1*Q_CH + 1*Q_CHNH2 + 1*Q_COOH
+# define R_D_MANNITOL 2*R_CH2 + 4*R_CH + 6*R_OH
+# define Q_D_MANNITOL 2*Q_CH2 + 4*Q_CH + 6*Q_OH
+# define R_ERYTHRITOL 4*R_OH + 2*R_CH2 + 2*R_CH
+# define Q_ERYTHRITOL 4*Q_OH + 2*Q_CH2 + 2*Q_CH
+# define R_FRUCTOSE 5*R_OH + 3*R_CH + 1*R_CH2 + 1*R_CH2CO
+# define Q_FRUCTOSE 5*Q_OH + 3*Q_CH + 1*Q_CH2 + 1*Q_CH2CO
+# define R_GALACTOSE 5*R_OH + 4*R_CH + 1*R_HCO + 1*R_CH2
+# define Q_GALACTOSE 5*Q_OH + 4*Q_CH + 1*Q_HCO + 1*Q_CH2
+# define R_GLUCOSE 5*R_OH + 4*R_CH + 1*R_HCO + 1*R_CH2
+# define Q_GLUCOSE 5*Q_OH + 4*Q_CH + 1*Q_HCO + 1*Q_CH2
+# define R_GLUTAMIC_ACID 1*R_COOH + 2*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_GLUTAMIC_ACID 1*Q_COOH + 2*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_GLYCEROL 3*R_OH + 2*R_CH2 + 1*R_CH
+# define Q_GLYCEROL 3*Q_OH + 2*Q_CH2 + 1*Q_CH
+# define R_GLYCINE 1*R_CH2NH2 + 1*R_COOH
+# define Q_GLYCINE 1*Q_CH2NH2 + 1*Q_COOH
+# define R_GLYCYLGLYCINE 1*R_CHNH2 + 1*R_CONHCH2 + 1*R_COOH
+# define Q_GLYCYLGLYCINE 1*Q_CHNH2 + 1*Q_CONHCH2 + 1*Q_COOH
+# define R_HISTIDINE 1*R_IMIDAZOL + 1*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_HISTIDINE 1*Q_IMIDAZOL + 1*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_HYDROXY_L_PROLINE 2*R_CH2 + 1*R_CH + 1*R_OH + 1*R_CHNH + 1*R_COOH
+# define Q_HYDROXY_L_PROLINE 2*Q_CH2 + 1*Q_CH + 1*Q_OH + 1*Q_CHNH + 1*Q_COOH
+# define R_LACTAMIDE 1*R_CH3 + 1*R_CH + 1*R_OH + 1*R_CONH2
+# define Q_LACTAMIDE 1*Q_CH3 + 1*Q_CH + 1*Q_OH + 1*Q_CONH2
+# define R_LACTOSE 8*R_OH + 7*R_CH + 2*R_CH2 + 3*R_CHO
+# define Q_LACTOSE 8*Q_OH + 7*Q_CH + 2*Q_CH2 + 3*Q_CHO
+# define R_L_ARGININE 1*R_CNH2NH + 3*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_L_ARGININE 1*Q_CNH2NH + 3*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_L_ISOLEUCINE 1*R_CH + 1*R_CH2 + 2*R_CH3 + 1*R_CHNH2 + 1*R_COOH
+# define Q_L_ISOLEUCINE 1*Q_CH + 1*Q_CH2 + 2*Q_CH3 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_L_PROLINE 3*R_CH2 + 1*R_CHNH + 1*R_COOH
+# define Q_L_PROLINE 3*Q_CH2 + 1*Q_CHNH + 1*Q_COOH
+# define R_L_SERINE 1*R_OH + 1*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_L_SERINE 1*Q_OH + 1*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_L_THREONINE 1*R_CH3 + 1*R_CH + 1*R_OH + 1*R_CHNH2 + 1*R_COOH
+# define Q_L_THREONINE 1*Q_CH3 + 1*Q_CH + 1*Q_OH + 1*Q_CHNH2 + 1*Q_COOH
+# define R_LYSINE 1*R_CH2NH2 + 3*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_LYSINE 1*Q_CH2NH2 + 3*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_MALTITOL 3*R_CH2 + 7*R_CH + 9*R_OH + 2*R_CHO
+# define Q_MALTITOL 3*Q_CH2 + 7*Q_CH + 9*Q_OH + 2*Q_CHO
+# define R_MALTOSE 2*R_CH2 + 6*R_CH + 8*R_OH + 3*R_CHO
+# define Q_MALTOSE 2*Q_CH2 + 6*Q_CH + 8*Q_OH + 3*Q_CHO
+# define R_MALTOSE_MONOHYDRATE 2*R_CH2 + 6*R_CH + 8*R_OH + 3*R_CHO
+# define Q_MALTOSE_MONOHYDRATE 2*Q_CH2 + 6*Q_CH + 8*Q_OH + 3*Q_CHO
+# define R_MANNITOL 2*R_CH2 + 4*R_CH + 6*R_OH
+# define Q_MANNITOL 2*Q_CH2 + 4*Q_CH + 6*Q_OH
+# define R_MANNOSE 5*R_OH + 4*R_CH + 1*R_HCO + 1*R_CH2
+# define Q_MANNOSE 5*Q_OH + 4*Q_CH + 1*Q_HCO + 1*Q_CH2
+# define R_RAFFINOSE 11*R_OH + 4*R_CH2 + 5*R_CHO + 9*R_CH
+# define Q_RAFFINOSE 11*Q_OH + 4*Q_CH2 + 5*Q_CHO + 9*Q_CH
+# define R_RIBOSE 4*R_OH + 1*R_CH2 + 3*R_CH + 1*R_HCO
+# define Q_RIBOSE 4*Q_OH + 1*Q_CH2 + 3*Q_CH + 1*Q_HCO
+# define R_SERINE 1*R_OH + 1*R_CH2 + 1*R_CHNH2 + 1*R_COOH
+# define Q_SERINE 1*Q_OH + 1*Q_CH2 + 1*Q_CHNH2 + 1*Q_COOH
+# define R_SORBITOL 2*R_CH2 + 4*R_CH + 6*R_OH
+# define Q_SORBITOL 2*Q_CH2 + 4*Q_CH + 6*Q_OH
+# define R_SUCROSE 8*R_OH + 6*R_CH + 3*R_CHO + 3*R_CH2
+# define Q_SUCROSE 8*Q_OH + 6*Q_CH + 3*Q_CHO + 3*Q_CH2
+# define R_TRIS_HYDROXYMETHYL_AMINOMETHANE 1*R_C + 1*R_NH2 + 3*R_CH2 + 3*R_OH
+# define Q_TRIS_HYDROXYMETHYL_AMINOMETHANE 1*Q_C + 1*Q_NH2 + 3*Q_CH2 + 3*Q_OH
+# define R_UREA 1*R_CONH2 + 1*R_NH2
+# define Q_UREA 1*Q_CONH2 + 1*Q_NH2
+# define R_VALINE 2*R_CH3 + 1*R_CH + 1*R_CHNH2 + 1*R_COOH
+# define Q_VALINE 2*Q_CH3 + 1*Q_CH + 1*Q_CHNH2 + 1*Q_COOH
+# define R_XYLITOL 2*R_CH2 + 3*R_CH + 5*R_OH
+# define Q_XYLITOL 2*Q_CH2 + 3*Q_CH + 5*Q_OH
+# define R_XYLOSE 1*R_CH2 + 1*R_HCO + 4*R_OH
+# define Q_XYLOSE 1*Q_CH2 + 1*Q_HCO + 4*Q_OH

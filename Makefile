@@ -15,6 +15,7 @@ BINDIR		= bin
 MAIN_SRC	= $(MAIN_SRC_DIR)/get_args.c \
 		  $(MAIN_SRC_DIR)/get_r_squared.c \
 		  $(MAIN_SRC_DIR)/read_file.c \
+		  $(MAIN_SRC_DIR)/fill_uniquac.c \
 		  $(MAIN_SRC_DIR)/fit.c \
 		  $(MAIN_SRC_DIR)/check.c \
 		  $(MAIN_SRC_DIR)/analyze.c \

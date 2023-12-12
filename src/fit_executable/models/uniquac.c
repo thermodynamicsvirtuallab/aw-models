@@ -1,4 +1,5 @@
 #include "../definitions_and_headers.h"
+#include "../unifac_header.h"
 
 /*
  * This function implements a simplified version of the UNIQUAC model,
@@ -32,6 +33,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 	long double ln_gamma_w;
 	long double x_w, x_j, x_k;
 	long double sumxjlj, sumqjxj, sumthetajtaujw, sumthetaktaukj, sumsum;
+	long double sumrjxj;
 	long double l_w, l_j, r_w, r_j, q_w, q_j, q_k;
 	long double theta_w, theta_j, theta_k, Phi_w;
 	long double u_jj, u_jw, u_wj, u_kj, u_kk, u_ww, tau_jw, tau_kj, tau_wj;
@@ -51,41 +53,40 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			* therefore, we also need its molar fraction.
 			*/
 
-		get_q_and_r (data, data->description.components[i],
-				&q_w, &r_w);
-		l_w = 1 - r_w;
-			/*
-			* l = (z/2) * (r-q) - (r-1)
-			* :. l = -(r-1) = 1 - r
-			*/
+		r_w = R_WATER;
+		q_w = Q_WATER;
+		l_w = (Z_COORD / 2) * (r_w - q_w) - (r_w - 1);
 		sumxjlj = x_w * l_w;
 
 		sumqjxj = q_w * x_w;
+		sumrjxj = r_w * x_w;
 
 		for ( j = 0; j < p; j++ ) {
 
 			x_j = data->x_and_aw.x[i][j];
-			get_q_and_r (data, data->description.components[i],
-					&q_j, &r_j);
-			l_j = 1 - r_j;
+			r_j = data->description.r_vals[j];
+			q_j = data->description.q_vals[j];
+			l_j = (Z_COORD / 2) * (r_j - q_j) - (r_j - 1);
 			sumxjlj += x_j * l_j;
 			/* here we dealt with the l's and their sum */
 
 			sumqjxj += q_j * x_j;
 			/* needed for theta_j */
+			sumrjxj += r_j * x_j;
+			/* needed for Phi_j */
 		}
 
 		theta_w = ( q_w * x_w ) / sumqjxj;
-		Phi_w = theta_w; /* because q_i = r_i */
+		Phi_w = (r_w * x_w) / sumrjxj;
 
 		sumthetajtaujw = theta_w; /* = theta_w * tau_ww = theta_w * 1 */
 		for ( j = 0; j < p; j++ ) {
-			get_q_and_r (data, data->description.components[i],
-					&q_j, &r_j);
+			r_j = data->description.r_vals[j];
+			q_j = data->description.q_vals[j];
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( K, p + 1 ) );
-			u_jj = fabs ( gsl_vector_get ( K, p + j + 2 ) );
+			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
 			u_jw = sqrt ( u_jj * u_ww );
 			tau_jw = exp ( - ( u_jw - u_ww ) / ( R * TEMP ) );
 			sumthetajtaujw += theta_j * tau_jw;
@@ -94,33 +95,35 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 		sumsum = 0;
 		for ( j = -1; j < p; j++ ) {
 
-			sumthetaktaukj = theta_w;
+			sumthetaktaukj = 0;
 			for ( k = -1; k < p; k++ ) {
 				if ( k == -1 ) {
 					x_k = x_w;
+					q_k = Q_WATER;
 				} else {
 					x_k = data->x_and_aw.x[i][k];
+					q_k = data->description.q_vals[i];
 				}
-				get_q_and_r (data, data->description.components[i],
-						&q_k, &r_j);
 				theta_k = ( q_k * x_k ) / sumqjxj;
-				u_kk = fabs ( gsl_vector_get ( K, p + k + 2 ) );
-				u_jj = fabs ( gsl_vector_get ( K, p + j + 2 ) );
+				u_kk = fabs ( gsl_vector_get ( K, k + 1 ) );
+				u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
 				u_kj = sqrt ( u_jj * u_kk );
 				tau_kj = exp ( - ( u_kj - u_jj ) / ( R * TEMP ) );
 				sumthetaktaukj += theta_k * tau_kj;
 			}
 
-			get_q_and_r (data, data->description.components[i],
-					&q_j, &r_j);
 			if ( j == -1 ) {
 				x_j = x_w;
+				r_j = R_WATER;
+				q_j = Q_WATER;
 			} else {
 				x_j = data->x_and_aw.x[i][j];
+				r_j = data->description.r_vals[j];
+				q_j = data->description.q_vals[j];
 			}
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( K, p ) );
-			u_jj = fabs ( gsl_vector_get ( K, p + j + 2 ) );
+			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
 			u_wj = sqrt ( u_ww * u_jj );
 			tau_wj = exp ( - ( u_wj - u_jj ) / ( R * TEMP ) );
 
@@ -129,17 +132,10 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 		}
 
 		ln_gamma_w = log ( Phi_w / x_w );
-			/* "ln_gamma_w +=
-			* ( Z_COORD / 2 ) * q_w * log ( theta_w / Phi_w );"
-			* is a expression that would be here if we did not
-			* assume r_j = q_j; however, because we assumed this,
-			* the expression between parenthesis inside the log
-			* equals  one, and this forces the whole right-hand
-			* side to 0.
-			*/
+		ln_gamma_w += ( Z_COORD / 2 ) * q_w * log ( theta_w / Phi_w );
 		ln_gamma_w += l_w;
 		ln_gamma_w -= ( Phi_w / x_w ) * sumxjlj;
-		ln_gamma_w -= q_w * ( 1 - log ( sumthetajtaujw ) - sumsum );
+		ln_gamma_w += q_w * ( 1 - log ( sumthetajtaujw ) - sumsum );
 		phi_i_calc = ( ln_gamma_w + log (x_w) ) / log (x_w);
 
 		if ( data->description.has_aw_data == TRUE ) {
@@ -154,13 +150,13 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			x_j = data->x_and_aw.aw[i];
 			x_w = 1 - x_j;
 
-			get_q_and_r (data, data->description.components[i],
-					&q_w, &r_w);
-			l_w = 1 - r_w;
+			r_w = R_WATER;
+			q_w = Q_WATER;
+			l_w = (Z_COORD / 2) * (r_w - q_w) - (r_w - 1);
 
-			get_q_and_r (data, data->description.components[i],
-					&q_j, &r_j);
-			l_j = 1 - r_j;
+			r_j = data->description.r_vals[0];
+			q_j = data->description.q_vals[0];
+			l_j = (Z_COORD / 2) * (r_j - q_j) - (r_j - 1);
 
 			sumxjlj = ( x_w * l_w ) + ( x_j * l_j );
 			sumqjxj = ( q_w * x_w ) + ( q_j * x_j );
@@ -169,8 +165,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 
 			sumthetajtaujw = theta_w;
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( K, p + 1 ) );
-			u_jj = fabs ( gsl_vector_get ( K, p + 2 ) );
+			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( K, 1 ) );
 			u_jw = sqrt ( u_jj * u_ww );
 			tau_jw = exp ( - ( u_jw - u_ww ) / ( R * TEMP ) );
 			sumthetajtaujw += theta_j * tau_jw;
@@ -182,33 +178,34 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 				for ( k = -1; k < 1; k++ ) {
 					if ( k == -1 ) {
 						x_k = x_w;
+						q_k = Q_WATER;
 					} else {
 						x_k = data->x_and_aw.aw[i];
+						q_k = data->description.q_vals[0];
 					}
-					get_q_and_r (data,
-						data->description.components[i],
-						&q_k, &r_j);
 					theta_k = ( q_k * x_k ) / sumqjxj;
 					u_kk = fabs
-						( gsl_vector_get ( K, p + k + 2 ) );
+						( gsl_vector_get ( K, k + 1 ) );
 					u_jj = fabs
-						( gsl_vector_get ( K, p + j + 2 ) );
+						( gsl_vector_get ( K, j + 1 ) );
 					u_kj = sqrt ( u_jj * u_kk );
 					tau_kj = exp
 						( - ( u_kj - u_jj ) / ( R * TEMP ) );
 					sumthetaktaukj += theta_k * tau_kj;
 				}
 
-				get_q_and_r (data, data->description.components[i],
-						&q_j, &r_j);
 				if ( j == -1 ) {
 					x_j = x_w;
+					r_j = R_WATER;
+					q_j = Q_WATER;
 				} else {
 					x_j = data->x_and_aw.x[i][j];
+					r_j = data->description.r_vals[0];
+					q_j = data->description.q_vals[0];
 				}
 				theta_j = ( q_j * x_j ) / sumqjxj;
-				u_ww = fabs ( gsl_vector_get ( K, p ) );
-				u_jj = fabs ( gsl_vector_get ( K, p + j + 2 ) );
+				u_ww = fabs ( gsl_vector_get ( K, 0 ) );
+				u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
 				u_wj = sqrt ( u_ww * u_jj );
 				tau_wj = exp ( - ( u_wj - u_jj ) / ( R * TEMP ) );
 
@@ -218,6 +215,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 
 
 			ln_gamma_w = log ( Phi_w / x_w );
+			ln_gamma_w += ( Z_COORD / 2 ) * q_w *
+						log ( theta_w / Phi_w );
 			ln_gamma_w += l_w;
 			ln_gamma_w -= ( Phi_w / x_w ) * sumxjlj;
 			ln_gamma_w -= q_w * ( 1 - log ( sumthetajtaujw ) - sumsum );
@@ -267,14 +266,21 @@ void print_uniquac ( gsl_matrix *covar, gsl_multifit_nlinear_workspace *w,
 		fprintf ( stdout, "Results Obtained:\n" );
 
 		for ( i = -1; i < p; i++ ) {
-			fprintf ( stdout, "\tq_%d  = %.5e\t+/-\t%.5e\t",
-				i + 1, fabs ( gsl_vector_get ( w->x, i + 1) ),
-				correction * sqrt ( gsl_matrix_get
-					( covar, i + 1, i + 1 ) ) );
 			if ( i != -1 ) {
+				fprintf ( stdout, "\tr_%d  = %.5e\t",
+					i + 1, data->description.r_vals[i]);
+				fprintf ( stdout, "(%s)\n",
+					data->description.components[i] );
+				fprintf ( stdout, "\tq_%d  = %.5e\t",
+					i + 1, data->description.q_vals[i]);
 				fprintf ( stdout, "(%s)\n",
 					data->description.components[i] );
 			} else {
+				fprintf ( stdout, "\tr_%d  = %.5e\t",
+					i + 1, R_WATER);
+				fprintf ( stdout, "(water)\n" );
+				fprintf ( stdout, "\tq_%d  = %.5e\t",
+					i + 1, Q_WATER);
 				fprintf ( stdout, "(water)\n" );
 			}
 			/* add solute name */
@@ -316,30 +322,30 @@ void print_uniquac ( gsl_matrix *covar, gsl_multifit_nlinear_workspace *w,
 void save_uniquac ( System *data, info *user_data,
 		gsl_multifit_nlinear_workspace *w ) {
 
-	int i, j, k, lines, comps;
-	long double phi_calc, phi_real;
+	int i, j, k, n, p;
+	long double phi_i_calc, phi_i_real;
 	long double ln_gamma_w;
 	long double x_w, x_j, x_k;
-	long double sumxjlj, sumqjxj, sumthetajtaujw, sumthetaktaukj, sumsum;
+	long double sumxjlj, sumrjxj, sumqjxj, sumthetajtaujw;
+	long double sumthetaktaukj, sumsum;
 	long double l_w, l_j, r_w, r_j, q_w, q_j, q_k;
 	long double theta_w, theta_j, theta_k, Phi_w;
 	long double u_jj, u_jw, u_wj, u_kj, u_kk, u_ww, tau_jw, tau_kj, tau_wj;
 	char *filename;
 	FILE *results_file;
-	gsl_vector *x = gsl_multifit_nlinear_position (w);
 
 	filename = user_data->filename_new_results;
 	results_file = fopen ( filename, "w" );
 
-	lines = data->description.dataset_size;
-	comps = data->description.n_of_comps;
+	n = data->description.dataset_size;
+	p = data->description.n_of_comps;
 
 	fprintf ( results_file, "phi_calc,phi_exp," );
 	if ( user_data->aw_in_results == TRUE ) {
 		fprintf ( results_file, "aw_calc,aw_exp," );
 	}
 
-	for ( i = 0; i < comps - 1; i++ ) {
+	for ( i = 0; i < p - 1; i++ ) {
 		fprintf ( results_file, "%s,", data->description.components[i] );
 	}
 	fprintf ( results_file, "%s\n", data->description.components[i] );
@@ -348,85 +354,85 @@ void save_uniquac ( System *data, info *user_data,
 	* Shamelessly copied from the function at the top of this file.
 	* I'm sorry.
 	*/
-	for ( i = 0; i < lines ; i++ ) {
+	for ( i = 0; i < n; i++ ) {
 		x_w = 1;
-		for ( j = 0; j < comps; j++ ) {
+		for ( j = 0; j < p; j++ ) {
 			x_w -= data->x_and_aw.x[i][j];
 		}      /* In this model the water is seen as another component;
 			* therefore, we also need its molar fraction.
 			*/
 
-		get_q_and_r (data, data->description.components[i],
-				&q_w, &r_w);
-		l_w = 1 - r_w;
-			/*
-			* l = (z/2) * (r-q) - (r-1)
-			* :. l = -(r-1) = 1 - r
-			*/
+		r_w = R_WATER;
+		q_w = Q_WATER;
+		l_w = (Z_COORD / 2) * (r_w - q_w) - (r_w - 1);
 		sumxjlj = x_w * l_w;
 
 		sumqjxj = q_w * x_w;
+		sumrjxj = r_w * x_w;
 
-		for ( j = 0; j < comps; j++ ) {
+		for ( j = 0; j < p; j++ ) {
 
 			x_j = data->x_and_aw.x[i][j];
-			get_q_and_r (data, data->description.components[i],
-					&q_j, &r_j);
-			l_j = 1 - r_j;
+			r_j = data->description.r_vals[j];
+			q_j = data->description.q_vals[j];
+			l_j = (Z_COORD / 2) * (r_j - q_j) - (r_j - 1);
 			sumxjlj += x_j * l_j;
 			/* here we dealt with the l's and their sum */
 
 			sumqjxj += q_j * x_j;
 			/* needed for theta_j */
+			sumrjxj += r_j * x_j;
+			/* needed for Phi_j */
 		}
 
 		theta_w = ( q_w * x_w ) / sumqjxj;
-		Phi_w = theta_w; /* because q_i = r_i */
+		Phi_w = (r_w * x_w) / sumrjxj;
 
 		sumthetajtaujw = theta_w; /* = theta_w * tau_ww = theta_w * 1 */
-		for ( j = 0; j < comps; j++ ) {
-			get_q_and_r (data, data->description.components[i],
-					&q_j, &r_j);
+		for ( j = 0; j < p; j++ ) {
+			r_j = data->description.r_vals[j];
+			q_j = data->description.q_vals[j];
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( x, comps + 1 ) );
-			u_jj = fabs ( gsl_vector_get ( x, comps + j + 2 ) );
+			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
 			u_jw = sqrt ( u_jj * u_ww );
 			tau_jw = exp ( - ( u_jw - u_ww ) / ( R * TEMP ) );
-			/*fprintf ( stderr, "tau_jw = %Lf\n", tau_jw );*/
 			sumthetajtaujw += theta_j * tau_jw;
 		}
 
 		sumsum = 0;
-		for ( j = -1; j < comps; j++ ) {
+		for ( j = -1; j < p; j++ ) {
 
-			sumthetaktaukj = theta_w;
-			for ( k = -1; k < comps; k++ ) {
+			sumthetaktaukj = 0;
+			for ( k = -1; k < p; k++ ) {
 				if ( k == -1 ) {
 					x_k = x_w;
+					q_k = Q_WATER;
 				} else {
 					x_k = data->x_and_aw.x[i][k];
+					q_k = data->description.q_vals[i];
 				}
-				get_q_and_r (data, data->description.components[i],
-						&q_k, &r_j);
 				theta_k = ( q_k * x_k ) / sumqjxj;
-				u_kk = fabs ( gsl_vector_get ( x, comps + k + 2 ) );
-				u_jj = fabs ( gsl_vector_get ( x, comps + j + 2 ) );
+				u_kk = fabs ( gsl_vector_get ( w->x, k + 1 ) );
+				u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
 				u_kj = sqrt ( u_jj * u_kk );
 				tau_kj = exp ( - ( u_kj - u_jj ) / ( R * TEMP ) );
 				sumthetaktaukj += theta_k * tau_kj;
 			}
 
-			get_q_and_r (data, data->description.components[i],
-					&q_j, &r_j);
 			if ( j == -1 ) {
 				x_j = x_w;
+				r_j = R_WATER;
+				q_j = Q_WATER;
 			} else {
 				x_j = data->x_and_aw.x[i][j];
+				r_j = data->description.r_vals[j];
+				q_j = data->description.q_vals[j];
 			}
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( x, comps ) );
-			u_jj = fabs ( gsl_vector_get ( x, comps + j + 2 ) );
+			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
 			u_wj = sqrt ( u_ww * u_jj );
 			tau_wj = exp ( - ( u_wj - u_jj ) / ( R * TEMP ) );
 
@@ -435,29 +441,108 @@ void save_uniquac ( System *data, info *user_data,
 		}
 
 		ln_gamma_w = log ( Phi_w / x_w );
-			/* "ln_gamma_w +=
-			* ( Z_COORD / 2 ) * q_w * log ( theta_w / Phi_w );"
-			* is a expression that would be here if we did not
-			* assume r_j = q_j; however, because we assumed this,
-			* the expression between parenthesis inside the log
-			* equals  one, and this forces the whole right-hand
-			* side to 0.
-			*/
+		ln_gamma_w += ( Z_COORD / 2 ) * q_w * log ( theta_w / Phi_w );
 		ln_gamma_w += l_w;
 		ln_gamma_w -= ( Phi_w / x_w ) * sumxjlj;
-		ln_gamma_w -= q_w * ( 1 - log ( sumthetajtaujw ) - sumsum );
+		ln_gamma_w += q_w * ( 1 - log ( sumthetajtaujw ) - sumsum );
+		phi_i_calc = ( ln_gamma_w + log (x_w) ) / log (x_w);
 
-		phi_calc = ( ln_gamma_w + log (x_w) ) / log (x_w);
-		phi_real = log (data->x_and_aw.aw[i]) / log (x_w);
-		fprintf ( results_file, "%Lf,%Lf,", phi_calc, phi_real );
+		if ( data->description.has_aw_data == TRUE ) {
+			phi_i_real = log (data->x_and_aw.aw[i]) / log (x_w);
+		} else {
+			/*
+			* This is exactly the algorithm programmed above,
+			* for a binary mixture. For the reasons why we need
+			* implement this ugly thing, see the file ./virial.c,
+			* specifically the function "phi_virial".
+			*/
+			x_j = data->x_and_aw.aw[i];
+			x_w = 1 - x_j;
+
+			r_w = R_WATER;
+			q_w = Q_WATER;
+			l_w = (Z_COORD / 2) * (r_w - q_w) - (r_w - 1);
+
+			r_j = data->description.r_vals[0];
+			q_j = data->description.q_vals[0];
+			l_j = (Z_COORD / 2) * (r_j - q_j) - (r_j - 1);
+
+			sumxjlj = ( x_w * l_w ) + ( x_j * l_j );
+			sumqjxj = ( q_w * x_w ) + ( q_j * x_j );
+			theta_w = ( q_w * x_w ) / sumqjxj;
+			Phi_w = theta_w;
+
+			sumthetajtaujw = theta_w;
+			theta_j = ( q_j * x_j ) / sumqjxj;
+			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( w->x, 1 ) );
+			u_jw = sqrt ( u_jj * u_ww );
+			tau_jw = exp ( - ( u_jw - u_ww ) / ( R * TEMP ) );
+			sumthetajtaujw += theta_j * tau_jw;
+
+			sumsum = 0;
+			for ( j = -1; j < 1; j++ ) {
+
+				sumthetaktaukj = theta_w;
+				for ( k = -1; k < 1; k++ ) {
+					if ( k == -1 ) {
+						x_k = x_w;
+						q_k = Q_WATER;
+					} else {
+						x_k = data->x_and_aw.aw[i];
+						q_k = data->description.q_vals[0];
+					}
+					theta_k = ( q_k * x_k ) / sumqjxj;
+					u_kk = fabs
+						( gsl_vector_get ( w->x, k + 1 ) );
+					u_jj = fabs
+						( gsl_vector_get ( w->x, j + 1 ) );
+					u_kj = sqrt ( u_jj * u_kk );
+					tau_kj = exp
+						( - ( u_kj - u_jj ) / ( R * TEMP ) );
+					sumthetaktaukj += theta_k * tau_kj;
+				}
+
+				if ( j == -1 ) {
+					x_j = x_w;
+					r_j = R_WATER;
+					q_j = Q_WATER;
+				} else {
+					x_j = data->x_and_aw.x[i][j];
+					r_j = data->description.r_vals[0];
+					q_j = data->description.q_vals[0];
+				}
+				theta_j = ( q_j * x_j ) / sumqjxj;
+				u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
+				u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
+				u_wj = sqrt ( u_ww * u_jj );
+				tau_wj = exp ( - ( u_wj - u_jj ) / ( R * TEMP ) );
+
+				sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;
+
+			}
+
+
+			ln_gamma_w = log ( Phi_w / x_w );
+			ln_gamma_w += ( Z_COORD / 2 ) * q_w *
+						log ( theta_w / Phi_w );
+			ln_gamma_w += l_w;
+			ln_gamma_w -= ( Phi_w / x_w ) * sumxjlj;
+			ln_gamma_w -= q_w * ( 1 - log ( sumthetajtaujw ) - sumsum );
+
+			phi_i_real = ( ln_gamma_w +
+				log ( 1 - data->x_and_aw.aw[i] ) ) / log (x_w);
+		}
+
+		fprintf ( results_file, "%Lf,%Lf,", phi_i_calc, phi_i_real );
 		if ( user_data->aw_in_results == TRUE ) {
 			fprintf ( results_file, "%Lf,%f,",
 				exp (ln_gamma_w) * x_w, data->x_and_aw.aw[i] );
 		}
-		for ( j = 0; j < comps - 1; j++ ) {
+		for ( j = 0; j < p - 1; j++ ) {
 			fprintf ( results_file, "%f,", data->x_and_aw.x[i][j] );
 		}
-		fprintf ( results_file, "%f\n", data->x_and_aw.x[i][comps-1] );
+		fprintf ( results_file, "%f\n", data->x_and_aw.x[i][p-1] );
 	}
 	fclose (results_file);
 }

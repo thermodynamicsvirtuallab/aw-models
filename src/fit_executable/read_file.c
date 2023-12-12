@@ -251,6 +251,8 @@ void finalize ( Metadata *system_description, Data *system,
 	}
 
 	free (system_description->components);
+	free (system_description->r_vals);
+	free (system_description->q_vals);
 	free (user_data->model);
 	free (user_data->filename);
 

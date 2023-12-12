@@ -12,6 +12,7 @@ int main ( int argc, char **argv ) {
 
 	initialize ( user_data.filename, &system_description,
 			&system, &user_data );
+	fill_uniquac ( &system_description );
 	/* read file to data structure and malloc required blocks */
 
 	data_for_fit.description = system_description;
