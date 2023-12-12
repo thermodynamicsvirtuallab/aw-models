@@ -29,15 +29,15 @@ least-squares fitting.
 Installation
 ------------
 
-To utilise the command-line utilities written, one needs to install the
+To use the command-line utilities written, one needs to install the
 dependencies, clone this repository and compile the source code within.
 
 The installation of the GNU Scientific Library is required. Instructions
 are available in the [project's website](https://www.gnu.org/software/gsl/).
 
-Besides, one needs to install Git, GCC, Make and the libraries BLAS/CBLAS.
+Moreover, one needs to install Git, GCC, Make and the libraries BLAS/CBLAS.
 
-Afterwards, one needs only to clone this repository and compile the source:
+Later, one needs only to clone this repository and compile the source:
 
 ```
 $ git clone https://github.com/thermodynamicsvirtuallab/aw-models
@@ -58,12 +58,12 @@ $ cd aw-models/data
 Use
 ---
 
-To run the utilities, one needs to consider a few details. Firstly, among the
+To run the utilities, one needs to consider a few details. First, among the
 experimental data in the files passed to the program, no conditions in which
 the osmotic coefficient is undefined can be included. For instance, pure water
 (water activity and molar fraction of one) must be excluded.
 
-Besides, the utilities assume that the files are spreadsheets in `.csv` format,
+Second, the utilities assume that the files are spreadsheets in `.csv` format,
 in which the first line stores the names of each solute in the mixture, the first
 column in the lines following it stores water activity values and the other columns
 store, for each solute, its molar fraction, as shown below:
