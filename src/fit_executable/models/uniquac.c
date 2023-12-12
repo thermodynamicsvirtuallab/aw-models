@@ -85,8 +85,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			q_j = data->description.q_vals[j];
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = gsl_vector_get ( K, 0 );
-			u_jj = gsl_vector_get ( K, j + 1 );
+			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
 			u_jw = sqrt ( u_jj * u_ww );
 			tau_jw = exp ( - ( u_jw - u_ww ) / ( R * TEMP ) );
 			sumthetajtaujw += theta_j * tau_jw;
@@ -105,8 +105,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 					q_k = data->description.q_vals[i];
 				}
 				theta_k = ( q_k * x_k ) / sumqjxj;
-				u_kk = gsl_vector_get ( K, k + 1 );
-				u_jj = gsl_vector_get ( K, j + 1 );
+				u_kk = fabs ( gsl_vector_get ( K, k + 1 ) );
+				u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
 				u_kj = sqrt ( u_jj * u_kk );
 				tau_kj = exp ( - ( u_kj - u_jj ) / ( R * TEMP ) );
 				sumthetaktaukj += theta_k * tau_kj;
@@ -122,8 +122,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 				q_j = data->description.q_vals[j];
 			}
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = gsl_vector_get ( K, 0 );
-			u_jj = gsl_vector_get ( K, j + 1 );
+			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
 			u_wj = sqrt ( u_ww * u_jj );
 			tau_wj = exp ( - ( u_wj - u_jj ) / ( R * TEMP ) );
 
@@ -165,8 +165,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 
 			sumthetajtaujw = theta_w;
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = gsl_vector_get ( K, 0 );
-			u_jj = gsl_vector_get ( K, 1 );
+			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( K, 1 ) );
 			u_jw = sqrt ( u_jj * u_ww );
 			tau_jw = exp ( - ( u_jw - u_ww ) / ( R * TEMP ) );
 			sumthetajtaujw += theta_j * tau_jw;
@@ -184,8 +184,10 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 						q_k = data->description.q_vals[0];
 					}
 					theta_k = ( q_k * x_k ) / sumqjxj;
-					u_kk = gsl_vector_get ( K, k + 1 );
-					u_jj = gsl_vector_get ( K, j + 1 );
+					u_kk = fabs
+						( gsl_vector_get ( K, k + 1 ) );
+					u_jj = fabs
+						( gsl_vector_get ( K, j + 1 ) );
 					u_kj = sqrt ( u_jj * u_kk );
 					tau_kj = exp
 						( - ( u_kj - u_jj ) / ( R * TEMP ) );
@@ -202,8 +204,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 					q_j = data->description.q_vals[0];
 				}
 				theta_j = ( q_j * x_j ) / sumqjxj;
-				u_ww = gsl_vector_get ( K, 0 );
-				u_jj = gsl_vector_get ( K, j + 1 );
+				u_ww = fabs ( gsl_vector_get ( K, 0 ) );
+				u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
 				u_wj = sqrt ( u_ww * u_jj );
 				tau_wj = exp ( - ( u_wj - u_jj ) / ( R * TEMP ) );
 
@@ -241,7 +243,7 @@ void callback_uniquac ( const size_t iter, void *params,
 	size = x->size;
 	for ( i = 0; i < size; i++ ) {
 		fprintf ( stderr, "\tK_%d = %.7e\n", (int) i,
-				gsl_vector_get ( x, i ) );
+				fabs ( gsl_vector_get ( x, i ) ) );
 	}
 	fprintf ( stderr, "\n" );
 
@@ -286,7 +288,7 @@ void print_uniquac ( gsl_matrix *covar, gsl_multifit_nlinear_workspace *w,
 		for ( i = -1; i < p; i++ ) {
 			fprintf ( stdout, "\tu_%d%d = %.5e\t+/-\t%.5e\t",
 				i + 1, i + 1,
-				gsl_vector_get ( w->x, i + 1 ),
+				fabs ( gsl_vector_get ( w->x, i + 1 ) ),
 				correction * sqrt ( gsl_matrix_get
 					( covar, i + 1, i + 1 ) ) );
 			if ( i != -1 ) {
@@ -392,8 +394,8 @@ void save_uniquac ( System *data, info *user_data,
 			q_j = data->description.q_vals[j];
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = gsl_vector_get ( w->x, 0 );
-			u_jj = gsl_vector_get ( w->x, j + 1 );
+			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
 			u_jw = sqrt ( u_jj * u_ww );
 			tau_jw = exp ( - ( u_jw - u_ww ) / ( R * TEMP ) );
 			sumthetajtaujw += theta_j * tau_jw;
@@ -412,8 +414,8 @@ void save_uniquac ( System *data, info *user_data,
 					q_k = data->description.q_vals[i];
 				}
 				theta_k = ( q_k * x_k ) / sumqjxj;
-				u_kk = gsl_vector_get ( w->x, k + 1 );
-				u_jj = gsl_vector_get ( w->x, j + 1 );
+				u_kk = fabs ( gsl_vector_get ( w->x, k + 1 ) );
+				u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
 				u_kj = sqrt ( u_jj * u_kk );
 				tau_kj = exp ( - ( u_kj - u_jj ) / ( R * TEMP ) );
 				sumthetaktaukj += theta_k * tau_kj;
@@ -429,8 +431,8 @@ void save_uniquac ( System *data, info *user_data,
 				q_j = data->description.q_vals[j];
 			}
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = gsl_vector_get ( w->x, 0 );
-			u_jj = gsl_vector_get ( w->x, j + 1 );
+			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
 			u_wj = sqrt ( u_ww * u_jj );
 			tau_wj = exp ( - ( u_wj - u_jj ) / ( R * TEMP ) );
 
@@ -472,8 +474,8 @@ void save_uniquac ( System *data, info *user_data,
 
 			sumthetajtaujw = theta_w;
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = gsl_vector_get ( w->x, 0 );
-			u_jj = gsl_vector_get ( w->x, 1 );
+			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
+			u_jj = fabs ( gsl_vector_get ( w->x, 1 ) );
 			u_jw = sqrt ( u_jj * u_ww );
 			tau_jw = exp ( - ( u_jw - u_ww ) / ( R * TEMP ) );
 			sumthetajtaujw += theta_j * tau_jw;
@@ -491,8 +493,10 @@ void save_uniquac ( System *data, info *user_data,
 						q_k = data->description.q_vals[0];
 					}
 					theta_k = ( q_k * x_k ) / sumqjxj;
-					u_kk = gsl_vector_get ( w->x, k + 1 );
-					u_jj = gsl_vector_get ( w->x, j + 1 );
+					u_kk = fabs
+						( gsl_vector_get ( w->x, k + 1 ) );
+					u_jj = fabs
+						( gsl_vector_get ( w->x, j + 1 ) );
 					u_kj = sqrt ( u_jj * u_kk );
 					tau_kj = exp
 						( - ( u_kj - u_jj ) / ( R * TEMP ) );
@@ -509,8 +513,8 @@ void save_uniquac ( System *data, info *user_data,
 					q_j = data->description.q_vals[0];
 				}
 				theta_j = ( q_j * x_j ) / sumqjxj;
-				u_ww = gsl_vector_get ( w->x, 0 );
-				u_jj = gsl_vector_get ( w->x, j + 1 );
+				u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
+				u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
 				u_wj = sqrt ( u_ww * u_jj );
 				tau_wj = exp ( - ( u_wj - u_jj ) / ( R * TEMP ) );
 
