@@ -185,6 +185,7 @@ void getargs ( int argc, char **argv, info *user_data ) {
 				* by the analysis of test and training data
 				* differences.
 				*/
+				user_data->max_iter = 0;
 				index = optind - 1;
 				K = 0;
 				while ( index < argc ) {

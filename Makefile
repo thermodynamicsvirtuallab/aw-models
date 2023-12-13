@@ -1,6 +1,6 @@
 CC		= gcc
 CFLAGS		= -Wall -std=c18 -pedantic -Werror -Ofast
-LDFLAGS		=
+LDFLAGS		= -ggdb3
 LDLIBS		= -lm -lgsl
 ARCH		:= $(shell uname -m)
 ifeq ($(ARCH),x86_64)
@@ -33,7 +33,8 @@ CONVERT_SRC	= $(CONVERT_SRC_DIR)/get_args.c \
 		  $(CONVERT_SRC_DIR)/convert.c \
 		  $(CONVERT_SRC_DIR)/main.c \
 
-MAIN_DEPS	= $(MAIN_SRC_DIR)/definitions_and_headers.h
+MAIN_DEPS	= $(MAIN_SRC_DIR)/definitions_and_headers.h \
+		  $(MAIN_SRC_DIR)/unifac_header.h
 MAIN_EXECUTABLE	= $(BINDIR)/FitWaterActivity
 MAIN_SYS_FILE	= /usr/bin/FitWaterActivity
 

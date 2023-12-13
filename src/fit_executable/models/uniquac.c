@@ -45,6 +45,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 	n = data->description.dataset_size;
 	p = data->description.n_of_comps;
 
+	ln_gamma_w = 0.0;
+	x_w = 0.0;
 	for ( i = 0; i < n; i++ ) {
 		x_w = 1;
 		for ( j = 0; j < p; j++ ) {
@@ -102,7 +104,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 					q_k = Q_WATER;
 				} else {
 					x_k = data->x_and_aw.x[i][k];
-					q_k = data->description.q_vals[i];
+					q_k = data->description.q_vals[k];
 				}
 				theta_k = ( q_k * x_k ) / sumqjxj;
 				u_kk = fabs ( gsl_vector_get ( K, k + 1 ) );
@@ -174,7 +176,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			sumsum = 0;
 			for ( j = -1; j < 1; j++ ) {
 
-				sumthetaktaukj = theta_w;
+				sumthetaktaukj = 0;
 				for ( k = -1; k < 1; k++ ) {
 					if ( k == -1 ) {
 						x_k = x_w;
@@ -342,7 +344,7 @@ void save_uniquac ( System *data, info *user_data,
 
 	fprintf ( results_file, "phi_calc,phi_exp," );
 	if ( user_data->aw_in_results == TRUE ) {
-		fprintf ( results_file, "aw_calc,aw_exp," );
+		fprintf ( results_file, "aw_calc,aw_exp,xw," );
 	}
 
 	for ( i = 0; i < p - 1; i++ ) {
@@ -411,7 +413,7 @@ void save_uniquac ( System *data, info *user_data,
 					q_k = Q_WATER;
 				} else {
 					x_k = data->x_and_aw.x[i][k];
-					q_k = data->description.q_vals[i];
+					q_k = data->description.q_vals[k];
 				}
 				theta_k = ( q_k * x_k ) / sumqjxj;
 				u_kk = fabs ( gsl_vector_get ( w->x, k + 1 ) );
@@ -536,8 +538,9 @@ void save_uniquac ( System *data, info *user_data,
 
 		fprintf ( results_file, "%Lf,%Lf,", phi_i_calc, phi_i_real );
 		if ( user_data->aw_in_results == TRUE ) {
-			fprintf ( results_file, "%Lf,%f,",
-				exp (ln_gamma_w) * x_w, data->x_and_aw.aw[i] );
+			fprintf ( results_file, "%Lf,%f,%Lf,",
+				exp (ln_gamma_w) * x_w,
+				data->x_and_aw.aw[i], x_w);
 		}
 		for ( j = 0; j < p - 1; j++ ) {
 			fprintf ( results_file, "%f,", data->x_and_aw.x[i][j] );
