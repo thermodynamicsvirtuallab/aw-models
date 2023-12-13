@@ -1,7 +1,8 @@
 CC		= gcc
 CFLAGS		= -Wall -std=c18 -pedantic -Werror -Ofast
 LDFLAGS		= -ggdb3
-LDLIBS		= -lm -lgsl
+LDLIBS		= -lm -lgsl -lgslcblas
+
 ARCH		:= $(shell uname -m)
 ifeq ($(ARCH),x86_64)
 	LDLIBS	+= -lmvec -lcblas
@@ -58,10 +59,10 @@ uninstall: $(MAIN_SYS_FILE) $(CONVERT_SYS_FILE)
 
 $(MAIN_EXECUTABLE): $(MAIN_SRC) $(MAIN_DEPS)
 	if [ ! -d "./bin" ]; then mkdir bin; fi
-	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $(MAIN_SRC) -o $@
+	$(CC) $(CFLAGS) $(MAIN_SRC) -o $@ $(LDFLAGS) $(LDLIBS)
 
 $(CONVERT_EXECUTABLE): $(CONVERT_SRC) $(CONVERT_DEPS)
 	if [ ! -d "./bin" ]; then mkdir bin; fi
-	$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $(CONVERT_SRC) -o $@
+	$(CC) $(CFLAGS) $(CONVERT_SRC) -o $@ $(LDFLAGS) $(LDLIBS)
 
 
