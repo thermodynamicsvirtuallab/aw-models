@@ -156,7 +156,6 @@ void initialize ( char *filename, Metadata *system_description,
 
 
 	system_description->temp = user_data->temp;
-	fprintf ( stdout, "%.5e\n", system_description->temp);
 
 	fprintf ( stdout, "%d lines read from file \"%s\" read.\n",
 			lines, filename );
@@ -184,10 +183,8 @@ void init_data ( char *model, double *x_init, int p, info *user_data ) {
 			fprintf ( stderr,
 				"Fitting as normally\n" );
 		}
-		if ( strcmp ( model, "uniquac" ) == TRUE ) {
-			for ( i = 0; i < p; i++ ) {
-				x_init[i] = (i+1)*20000.0;
-			}
+		for ( i = 0; i < p; i++ ) {
+			x_init[i] = 0.0;
 		}
 	} else {
 		for ( i = 0; i < p; i++ ) {

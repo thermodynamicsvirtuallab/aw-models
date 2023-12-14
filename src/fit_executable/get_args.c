@@ -192,6 +192,7 @@ void getargs ( int argc, char **argv, info *user_data ) {
 				* differences.
 				*/
 				user_data->max_iter = 0;
+				fprintf (stderr, "ALL\n" );
 				index = optind - 1;
 				K = 0;
 				while ( index < argc ) {

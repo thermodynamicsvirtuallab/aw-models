@@ -1,19 +1,7 @@
 #include "../definitions_and_headers.h"
 #include "../unifac_header.h"
 
-double uni_ind ( int i, int j, int n,  const gsl_vector *K ) {
-
-	double retval;
-
-	retval = 0;
-	if ( i > j ) {
-		retval = gsl_vector_get ( K, i - 1 + ( n - 1 ) * j );
-	} else if ( i < j ) {
-		retval = gsl_vector_get ( K, i+ ( n - 1 ) * j );
-	}
-
-	return retval;
-}
+double uni_ind ( int i, int j, int n, const gsl_vector *K );
 
 /*
  * This function implements a simplified version of the UNIQUAC model,
@@ -306,7 +294,7 @@ void print_uniquac ( gsl_matrix *covar, gsl_multifit_nlinear_workspace *w,
 					fprintf ( stdout,
 						"\tA_%d%d = 0.0\t\t+/-",
 						i + 1, j + 1);
-					fprintf ( stdout, "\t0.0\t");
+					fprintf ( stdout, "\t\t0.0\t");
 				}
 				if ( i != -1 ) {
 					fprintf ( stdout, "(%s/",
@@ -561,4 +549,22 @@ void save_uniquac ( System *data, info *user_data,
 		fprintf ( results_file, "%f\n", data->x_and_aw.x[i][p-1] );
 	}
 	fclose (results_file);
+}
+
+/*
+ * This function returns the value of A_ij in the gsl_vector K, when i != j;
+ * otherwise, it returns the defined value of A_ij, zero.
+ */
+double uni_ind ( int i, int j, int n, const gsl_vector *K ) {
+
+	double retval;
+
+	retval = 0;
+	if ( i > j ) {
+		retval = gsl_vector_get ( K, i - 1 + ( n - 1 ) * j );
+	} else if ( i < j ) {
+		retval = gsl_vector_get ( K, i+ ( n - 1 ) * j );
+	}
+
+	return retval;
 }
