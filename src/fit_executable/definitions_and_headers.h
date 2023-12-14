@@ -44,7 +44,6 @@
 #define TEMP 298.15
 
 #define Z_COORD 10.0
-#define KNOWN_COMPS 10
 
 /*
  * Data structures
@@ -57,6 +56,7 @@ typedef struct {
 	char **components;
 	double *q_vals;
 	double *r_vals;
+	double temp;
 } Metadata;
 
 typedef struct {
@@ -80,6 +80,7 @@ typedef struct {
 	char **files_zdan;
 	double cost;
 	double *K;
+	double temp;
 	int K_number;
 	int quiet;
 	int is_all;

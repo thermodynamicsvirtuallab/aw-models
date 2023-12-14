@@ -154,6 +154,10 @@ void initialize ( char *filename, Metadata *system_description,
 	system->x = x_values;
 	system->aw = y_values;
 
+
+	system_description->temp = user_data->temp;
+	fprintf ( stdout, "%.5e\n", system_description->temp);
+
 	fprintf ( stdout, "%d lines read from file \"%s\" read.\n",
 			lines, filename );
 	fprintf ( stdout, "Average activity: avg(aw) = %f\n", avg_aw );
@@ -162,6 +166,7 @@ void initialize ( char *filename, Metadata *system_description,
 		/*
 		* And now our data and metadata are stored in our structs
 		*/
+
 
 }
 

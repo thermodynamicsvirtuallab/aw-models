@@ -20,6 +20,8 @@ void print_usage (void) {
 	fprintf ( stderr, "          predictive abilities of the regression\n" );
 	fprintf ( stderr, "          (training and test data) and also to set\n" );
 	fprintf ( stderr, "          the initial values of the iterative process.\n" );
+	fprintf ( stderr, "        -T <temperature>\n" );
+	fprintf ( stderr, "          Sets temperature, defaults to 298.15K\n" );
 	fprintf ( stderr, "        -m <model>\n" );
 	fprintf ( stderr, "          Model: can be one of norrish, virial, \n" );
 	fprintf ( stderr, "          UNIQUAC, caurie, raoult, zdanovskii \n" );
@@ -61,7 +63,7 @@ void getargs ( int argc, char **argv, info *user_data ) {
 
 	int opt, gave_file, index, count, K;
 	double next, *tmp_K;
-	char *endptr_K;
+	char *endptr_K, *endptr_T;
 
 	opterr = 0; /* This is a very ugly hack; if the user-informed
 			* fitting parameters passed to the option '-K'
@@ -100,8 +102,9 @@ void getargs ( int argc, char **argv, info *user_data ) {
 	user_data->has_aw_data = TRUE;
 	user_data->max_iter = MAX_ITER;
 	user_data->aw_in_results = FALSE;
+	user_data->temp = TEMP;
 
-	while ( ( opt = getopt ( argc, argv, "hqf:F:m:Z:M:K:OEA" ) ) != -1 ) {
+	while ( ( opt = getopt ( argc, argv, "hqf:F:m:Z:M:K:OEAT" ) ) != -1 ) {
 		switch (opt) {
 			case 'h':
 				free (user_data->model);
@@ -177,6 +180,9 @@ void getargs ( int argc, char **argv, info *user_data ) {
 				break;
 			case 'M':
 				user_data->max_iter = atoi (optarg);
+				break;
+			case 'T':
+				user_data->temp = strtod(argv[optind], &endptr_T);
 				break;
 			case 'K':
 				/*
