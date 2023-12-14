@@ -38,6 +38,7 @@ print_table_binary () {
 
 	filename="$1"
 	first_comp_name="$2"
+	temperature="-T $3 298.15"
 
 	label=tab_"$(echo "$filename" | cut -d '.' -f 1 | cut -d '/' -f 3)"
 
@@ -58,7 +59,8 @@ print_table_binary () {
 		./bin/FitWaterActivity -m norrish -f "$filename" -M "$MVAL" -q
 	)"
 	uniquac_results="$(
-		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q
+		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q \
+			$temperature
 	)"
 
 	AVGAW="$(
@@ -122,6 +124,7 @@ print_table_ternary () {
 	filename="$1"
 	first_comp_name="$2"
 	second_comp_name="$3"
+	temperature="-T $4 298.15"
 
 	label=tab_"$(echo "$filename" | cut -d '.' -f 1 | cut -d '/' -f 3)"
 
@@ -137,7 +140,8 @@ print_table_ternary () {
 		./bin/FitWaterActivity -m norrish -f "$filename" -M "$MVAL" -q
 	)"
 	uniquac_results="$(
-		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q
+		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q \
+			$temperature
 	)"
 
 	AVGAW="$(
@@ -220,6 +224,7 @@ print_table_quaternary () {
 	first_comp_name="$2"
 	second_comp_name="$3"
 	third_comp_name="$4"
+	temperature="-T $5 298.15"
 
 	label=tab_"$(echo "$filename" | cut -d '.' -f 1 | cut -d '/' -f 3)"
 
@@ -235,7 +240,8 @@ print_table_quaternary () {
 		./bin/FitWaterActivity -m norrish -f "$filename" -M "$MVAL" -q
 	)"
 	uniquac_results="$(
-		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q
+		./bin/FitWaterActivity -m uniquac -f "$filename" -M "$MVAL" -q \
+			$temperature
 	)"
 
 	AVGAW="$(
@@ -336,13 +342,13 @@ no=$(get_number_of_components $1)
 
 case "$no" in
 	"1")
-		print_table_binary	"$1" "$2"
+		print_table_binary	"$1" "$2" "$3"
 		;;
 	"2")
-		print_table_ternary	"$1" "$2" "$3"
+		print_table_ternary	"$1" "$2" "$3" "$4"
 		;;
 	"3")
-		print_table_quaternary	"$1" "$2" "$3" "$4"
+		print_table_quaternary	"$1" "$2" "$3" "$4" "$5"
 		;;
 	*)
 		;;

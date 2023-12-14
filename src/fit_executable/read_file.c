@@ -157,7 +157,7 @@ void initialize ( char *filename, Metadata *system_description,
 
 	system_description->temp = user_data->temp;
 
-	fprintf ( stdout, "%d lines read from file \"%s\" read.\n",
+	fprintf ( stdout, "%d lines read from file \"%s\".\n",
 			lines, filename );
 	fprintf ( stdout, "Average activity: avg(aw) = %f\n", avg_aw );
 	fprintf ( stdout, "Average dilution: avg(xw) = %f\n", avg_xw );

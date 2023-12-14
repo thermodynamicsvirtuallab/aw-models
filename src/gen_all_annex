@@ -249,19 +249,19 @@ case "$paper" in
 
 		./src/gen_latex_table \
 			data/converted/romero_06_glycine_288_15_K.csv \
-			"$glycine"
+			"$glycine" "288.15"
 
 		echo
 
 		./src/gen_latex_table \
 			data/converted/romero_06_dl_alpha_aminobutyric_acid_288_15_K.csv \
-			"$aminobutyric"
+			"$aminobutyric" "288.15"
 
 		echo
 
 		./src/gen_latex_table \
 			data/converted/romero_06_dl_alanine_288_15_K.csv \
-			"$alanine"
+			"$alanine" "288.15"
 
 		echo
 
@@ -275,19 +275,19 @@ case "$paper" in
 
 		./src/gen_latex_table \
 			data/converted/romero_06_glycine_293_15_K.csv \
-			"$glycine"
+			"$glycine" "293.15"
 
 		echo
 
 		./src/gen_latex_table \
 			data/converted/romero_06_dl_alpha_aminobutyric_acid_293_15_K.csv \
-			"$aminobutyric"
+			"$aminobutyric" "293.15"
 
 		echo
 
 		./src/gen_latex_table \
 			data/converted/romero_06_dl_alanine_293_15_K.csv \
-			"$alanine"
+			"$alanine" "293.15"
 
 		echo
 
@@ -327,19 +327,19 @@ case "$paper" in
 
 		./src/gen_latex_table \
 			data/converted/romero_06_glycine_303_15_K.csv \
-			"$glycine"
+			"$glycine" "303.15"
 
 		echo
 
 		./src/gen_latex_table \
 			data/converted/romero_06_dl_alpha_aminobutyric_acid_303_15_K.csv \
-			"$aminobutyric"
+			"$aminobutyric" "303.15"
 
 		echo
 
 		./src/gen_latex_table \
 			data/converted/romero_06_dl_alanine_303_15_K.csv \
-			"$alanine"
+			"$alanine" "303.15"
 
 		echo
 
@@ -384,17 +384,17 @@ case "$paper" in
 
 		./src/gen_latex_table \
 			data/converted/tsurko_07_glutamic_acid_310_15.csv \
-			"$glutamic"
+			"$glutamic" "310.15"
 
 		echo
 
 		./src/gen_latex_table \
 			data/converted/tsurko_07_glycine_310_15.csv \
-			"$glycine"
+			"$glycine" "310.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/tsurko_07_histidine_310_15.csv \
-			"$histidine"
+			"$histidine" "310.15"
 		echo
 		echo \\FloatBarrier
 		echo
@@ -735,35 +735,35 @@ case "$paper" in
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_fructose_30_C.csv \
-			"$fructose/30\\textcelsius"
+			"$fructose/30\\textcelsius" "303.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_glucose_30_C.csv \
-			"$glucose/30\\textcelsius"
+			"$glucose/30\\textcelsius" "303.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_maltose_30_C.csv \
-			"$maltose/30\\textcelsius"
+			"$maltose/30\\textcelsius" "303.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_sucrose_30_C.csv \
-			"$sucrose/30\\textcelsius"
+			"$sucrose/30\\textcelsius" "303.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_fructose_35_C.csv \
-			"$fructose/35\\textcelsius"
+			"$fructose/35\\textcelsius" "308.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_glucose_35_C.csv \
-			"$glucose/35\\textcelsius"
+			"$glucose/35\\textcelsius" "308.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_maltose_35_C.csv \
-			"$maltose/35\\textcelsius"
+			"$maltose/35\\textcelsius" "308.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_sucrose_35_C.csv \
-			"$sucrose/35\\textcelsius"
+			"$sucrose/35\\textcelsius" "308.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_fructose_glucose_sucrose_25_C.csv \
@@ -773,12 +773,12 @@ case "$paper" in
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_fructose_glucose_sucrose_30_C.csv \
 			"$fructose/30\\textcelsius" "$glucose/30\\textcelsius" \
-			"$sucrose/30\\textcelsius"
+			"$sucrose/30\\textcelsius" "303.15"
 		echo
 		./src/gen_latex_table \
 			data/converted/velezmoro_00_fructose_glucose_sucrose_35_C.csv \
 			"$fructose/35\\textcelsius" "$glucose/35\\textcelsius" \
-			"$sucrose/35\\textcelsius"
+			"$sucrose/35\\textcelsius" "308.15"
 		echo
 		;;
 esac
