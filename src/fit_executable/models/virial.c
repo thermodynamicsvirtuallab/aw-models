@@ -160,7 +160,7 @@ void save_virial ( System *data, info *user_data,
 
 	fprintf ( results_file, "phi_calc,phi_exp," );
 	if ( user_data->aw_in_results == TRUE ) {
-		fprintf ( results_file, "aw_calc,aw_exp," );
+		fprintf ( results_file, "aw_calc,aw_exp,xw," );
 	}
 	for ( i = 0; i < comps - 1; i++ ) {
 		fprintf ( results_file, "%s,", data->description.components[i] );
@@ -190,8 +190,8 @@ void save_virial ( System *data, info *user_data,
 		phi_exp = log ( data->x_and_aw.aw[i] ) / xw;
 		fprintf ( results_file, "%f,%f,", phi_calc, phi_exp );
 		if ( user_data->aw_in_results == TRUE ) {
-			fprintf ( results_file, "%f,%f,",
-				exp (sumxiki), data->x_and_aw.aw[i] );
+			fprintf ( results_file, "%f,%f,%f,",
+				exp (sumxiki), data->x_and_aw.aw[i], xw );
 		}
 		for ( j = 0; j < comps - 1; j++ ) {
 			fprintf ( results_file, "%f,", data->x_and_aw.x[i][j] );
