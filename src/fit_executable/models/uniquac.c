@@ -1,6 +1,20 @@
 #include "../definitions_and_headers.h"
 #include "../unifac_header.h"
 
+double uni_ind ( int i, int j, int n,  const gsl_vector *K ) {
+
+	double retval;
+
+	retval = 0;
+	if ( i > j ) {
+		retval = gsl_vector_get ( K, i - 1 + ( n - 1 ) * j );
+	} else if ( i < j ) {
+		retval = gsl_vector_get ( K, i+ ( n - 1 ) * j );
+	}
+
+	return retval;
+}
+
 /*
  * This function implements a simplified version of the UNIQUAC model,
  * assuming that for all component i the respective parameters r_i and
@@ -36,7 +50,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 	long double sumrjxj;
 	long double l_w, l_j, r_w, r_j, q_w, q_j, q_k;
 	long double theta_w, theta_j, theta_k, Phi_w;
-	long double u_jj, u_jw, u_wj, u_kj, u_kk, u_ww, tau_jw, tau_kj, tau_wj;
+	long double tau_jw, tau_kj, tau_wj;
+	long double A_wj, A_jw, A_kj;
 	int n, p;
 	int i, j, k;
 
@@ -87,11 +102,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			q_j = data->description.q_vals[j];
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
-			u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
-			u_jw = sqrt ( u_jj * u_ww );
-			tau_jw = exp ( - ( u_jw - u_ww ) /
-					( R * data->description.temp ) );
+			A_jw = uni_ind( j+1, 0, p+1, K );
+			tau_jw = exp ( - A_jw / ( R * data->description.temp ) );
 			sumthetajtaujw += theta_j * tau_jw;
 		}
 
@@ -108,10 +120,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 					q_k = data->description.q_vals[k];
 				}
 				theta_k = ( q_k * x_k ) / sumqjxj;
-				u_kk = fabs ( gsl_vector_get ( K, k + 1 ) );
-				u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
-				u_kj = sqrt ( u_jj * u_kk );
-				tau_kj = exp ( - ( u_kj - u_jj ) /
+				A_kj = uni_ind ( k + 1, j + 1, p + 1, K );
+				tau_kj = exp ( - A_kj /
 						( R * data->description.temp ) );
 				sumthetaktaukj += theta_k * tau_kj;
 			}
@@ -126,11 +136,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 				q_j = data->description.q_vals[j];
 			}
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
-			u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
-			u_wj = sqrt ( u_ww * u_jj );
-			tau_wj = exp ( - ( u_wj - u_jj ) /
-					( R * data->description.temp ) );
+			A_wj = uni_ind ( 0, j + 1, p + 1, K );
+			tau_wj = exp ( - A_wj / ( R * data->description.temp ) );
 
 			sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;
 
@@ -170,11 +177,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 
 			sumthetajtaujw = theta_w;
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( K, 0 ) );
-			u_jj = fabs ( gsl_vector_get ( K, 1 ) );
-			u_jw = sqrt ( u_jj * u_ww );
-			tau_jw = exp ( - ( u_jw - u_ww ) /
-					( R * data->description.temp ) );
+			A_jw = uni_ind ( 1, 0, p + 1, K );
+			tau_jw = exp ( - A_jw / ( R * data->description.temp ) );
 			sumthetajtaujw += theta_j * tau_jw;
 
 			sumsum = 0;
@@ -190,12 +194,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 						q_k = data->description.q_vals[0];
 					}
 					theta_k = ( q_k * x_k ) / sumqjxj;
-					u_kk = fabs
-						( gsl_vector_get ( K, k + 1 ) );
-					u_jj = fabs
-						( gsl_vector_get ( K, j + 1 ) );
-					u_kj = sqrt ( u_jj * u_kk );
-					tau_kj = exp ( - ( u_kj - u_jj ) /
+					A_kj = uni_ind ( k+1, j+1, p+1, K );
+					tau_kj = exp ( - A_kj /
 						( R * data->description.temp ) );
 					sumthetaktaukj += theta_k * tau_kj;
 				}
@@ -210,10 +210,8 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 					q_j = data->description.q_vals[0];
 				}
 				theta_j = ( q_j * x_j ) / sumqjxj;
-				u_ww = fabs ( gsl_vector_get ( K, 0 ) );
-				u_jj = fabs ( gsl_vector_get ( K, j + 1 ) );
-				u_wj = sqrt ( u_ww * u_jj );
-				tau_wj = exp ( - ( u_wj - u_jj ) /
+				A_wj = uni_ind ( 0, j+1, p+1, K );
+				tau_wj = exp ( - A_wj /
 						( R * data->description.temp ) );
 
 				sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;
@@ -250,7 +248,7 @@ void callback_uniquac ( const size_t iter, void *params,
 	size = x->size;
 	for ( i = 0; i < size; i++ ) {
 		fprintf ( stderr, "\tK_%d = %.7e\n", (int) i,
-				fabs ( gsl_vector_get ( x, i ) ) );
+				gsl_vector_get ( x, i ) );
 	}
 	fprintf ( stderr, "\n" );
 
@@ -261,7 +259,7 @@ void print_uniquac ( gsl_matrix *covar, gsl_multifit_nlinear_workspace *w,
 		System *data, info *user_data ) {
 
 	int p, n;
-	int i;
+	int i, j, counter;
 	double correction, R_squared, R_squared_aw;
 
 	p = data->description.n_of_comps;
@@ -292,19 +290,38 @@ void print_uniquac ( gsl_matrix *covar, gsl_multifit_nlinear_workspace *w,
 			}
 			/* add solute name */
 		}
+		counter = 0;
 		for ( i = -1; i < p; i++ ) {
-			fprintf ( stdout, "\tu_%d%d = %.5e\t+/-\t%.5e\t",
-				i + 1, i + 1,
-				fabs ( gsl_vector_get ( w->x, i + 1 ) ),
-				correction * sqrt ( gsl_matrix_get
-					( covar, i + 1, i + 1 ) ) );
-			if ( i != -1 ) {
-				fprintf ( stdout, "(%s)\n",
-					data->description.components[i] );
-			} else {
-				fprintf ( stdout, "(water)\n" );
-			}
+			for ( j = -1; j < p; j++ ) {
+				if ( i != j ) {
+					fprintf ( stdout,
+						"\tA_%d%d = %.5e\t+/-\t%.5e\t",
+						i + 1, j + 1,
+						uni_ind ( i + 1, j + 1,
+							p + 1, w->x ),
+					correction * sqrt ( gsl_matrix_get
+						( covar, counter, counter ) ) );
+					counter++;
+				} else {
+					fprintf ( stdout,
+						"\tA_%d%d = 0.0\t\t+/-",
+						i + 1, j + 1);
+					fprintf ( stdout, "\t0.0\t");
+				}
+				if ( i != -1 ) {
+					fprintf ( stdout, "(%s/",
+						data->description.components[i]);
+				} else {
+					fprintf ( stdout, "(water/" );
+				}
+				if ( j != -1 ) {
+					fprintf ( stdout, "%s)\n",
+						data->description.components[j]);
+				} else {
+					fprintf ( stdout, "water)\n" );
+				}
 			/* add solute name */
+			}
 		}
 
 		R_squared = get_R_squared ( w, data );
@@ -337,7 +354,8 @@ void save_uniquac ( System *data, info *user_data,
 	long double sumthetaktaukj, sumsum;
 	long double l_w, l_j, r_w, r_j, q_w, q_j, q_k;
 	long double theta_w, theta_j, theta_k, Phi_w;
-	long double u_jj, u_jw, u_wj, u_kj, u_kk, u_ww, tau_jw, tau_kj, tau_wj;
+	long double tau_jw, tau_kj, tau_wj;
+	long double A_jw, A_wj, A_kj;
 	char *filename;
 	FILE *results_file;
 
@@ -401,11 +419,8 @@ void save_uniquac ( System *data, info *user_data,
 			q_j = data->description.q_vals[j];
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
-			u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
-			u_jw = sqrt ( u_jj * u_ww );
-			tau_jw = exp ( - ( u_jw - u_ww ) /
-					( R * data->description.temp ) );
+			A_jw = uni_ind( j + 1, 0, p + 1, w->x );
+			tau_jw = exp ( - A_jw / ( R * data->description.temp ) );
 			sumthetajtaujw += theta_j * tau_jw;
 		}
 
@@ -422,10 +437,8 @@ void save_uniquac ( System *data, info *user_data,
 					q_k = data->description.q_vals[k];
 				}
 				theta_k = ( q_k * x_k ) / sumqjxj;
-				u_kk = fabs ( gsl_vector_get ( w->x, k + 1 ) );
-				u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
-				u_kj = sqrt ( u_jj * u_kk );
-				tau_kj = exp ( - ( u_kj - u_jj ) /
+				A_kj = uni_ind ( k + 1, j + 1, p + 1, w->x );
+				tau_kj = exp ( - A_kj /
 						( R * data->description.temp ) );
 				sumthetaktaukj += theta_k * tau_kj;
 			}
@@ -440,10 +453,8 @@ void save_uniquac ( System *data, info *user_data,
 				q_j = data->description.q_vals[j];
 			}
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
-			u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
-			u_wj = sqrt ( u_ww * u_jj );
-			tau_wj = exp ( - ( u_wj - u_jj ) /
+			A_wj = uni_ind ( 0, j + 1, p + 1, w->x );
+			tau_wj = exp ( - A_wj /
 					( R * data->description.temp ) );
 
 			sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;
@@ -484,10 +495,8 @@ void save_uniquac ( System *data, info *user_data,
 
 			sumthetajtaujw = theta_w;
 			theta_j = ( q_j * x_j ) / sumqjxj;
-			u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
-			u_jj = fabs ( gsl_vector_get ( w->x, 1 ) );
-			u_jw = sqrt ( u_jj * u_ww );
-			tau_jw = exp ( - ( u_jw - u_ww ) /
+			A_jw = uni_ind ( 1, 0, p + 1, w->x );
+			tau_jw = exp ( - A_jw /
 					( R * data->description.temp ) );
 			sumthetajtaujw += theta_j * tau_jw;
 
@@ -504,12 +513,8 @@ void save_uniquac ( System *data, info *user_data,
 						q_k = data->description.q_vals[0];
 					}
 					theta_k = ( q_k * x_k ) / sumqjxj;
-					u_kk = fabs
-						( gsl_vector_get ( w->x, k + 1 ) );
-					u_jj = fabs
-						( gsl_vector_get ( w->x, j + 1 ) );
-					u_kj = sqrt ( u_jj * u_kk );
-					tau_kj = exp ( - ( u_kj - u_jj ) /
+					A_kj = uni_ind ( k+1, j+1, p+1, w->x );
+					tau_kj = exp ( - A_kj /
 						( R * data->description.temp ) );
 					sumthetaktaukj += theta_k * tau_kj;
 				}
@@ -524,10 +529,8 @@ void save_uniquac ( System *data, info *user_data,
 					q_j = data->description.q_vals[0];
 				}
 				theta_j = ( q_j * x_j ) / sumqjxj;
-				u_ww = fabs ( gsl_vector_get ( w->x, 0 ) );
-				u_jj = fabs ( gsl_vector_get ( w->x, j + 1 ) );
-				u_wj = sqrt ( u_ww * u_jj );
-				tau_wj = exp ( - ( u_wj - u_jj ) /
+				A_wj = uni_ind ( 0, j+1, p+1, w->x );
+				tau_wj = exp ( - A_wj /
 						( R * data->description.temp ) );
 
 				sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;

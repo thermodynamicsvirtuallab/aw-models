@@ -29,7 +29,7 @@ int fit_to_model ( System *data, info *user_data ) {
 	double chisq, chisq0;
 	int status, info;
 
-	fdf_params.trs = gsl_multifit_nlinear_trs_lmaccel;
+	fdf_params.trs = gsl_multifit_nlinear_trs_lm;
 
 	n = data->description.dataset_size;
 	p = data->description.n_of_comps;
@@ -49,7 +49,7 @@ int fit_to_model ( System *data, info *user_data ) {
 		save = &save_virial;
 	} else if ( strcmp ( user_data->model, "uniquac" ) == TRUE ) {
 		fdf.f = phi_uniquac;
-		fdf.p = p + 1;
+		fdf.p = p * (p + 1);
 		callback = &callback_uniquac;
 		print = &print_uniquac;
 		save = &save_uniquac;
