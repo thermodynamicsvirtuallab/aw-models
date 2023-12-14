@@ -145,7 +145,7 @@ void save_norrish ( System *data, info *user_data,
 		if ( user_data->aw_in_results == TRUE ) {
 			fprintf ( results_file, "%f,%f,%f,",
 				exp ( xw + sumxiki ),
-				data->x_and_aw.aw[i], xw );
+				data->x_and_aw.aw[i], exp(xw) );
 		}
 		for ( j = 0; j < comps - 1; j++ ) {
 			fprintf ( results_file, "%f,", data->x_and_aw.x[i][j] );

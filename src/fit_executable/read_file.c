@@ -184,7 +184,7 @@ void init_data ( char *model, double *x_init, int p, info *user_data ) {
 				"Fitting as normally\n" );
 		}
 		for ( i = 0; i < p; i++ ) {
-			x_init[i] = 0.0;
+			x_init[i] = 1.0;
 		}
 	} else {
 		for ( i = 0; i < p; i++ ) {

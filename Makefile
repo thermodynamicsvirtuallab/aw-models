@@ -1,7 +1,7 @@
 CC		= gcc
 CFLAGS		= -Wall -std=c18 -pedantic -Werror -Ofast
 LDFLAGS		= -ggdb3
-LDLIBS		= -lm -lgsl -lgslcblas
+LDLIBS		= -lm -lgsl
 
 ARCH		:= $(shell uname -m)
 ifeq ($(ARCH),x86_64)

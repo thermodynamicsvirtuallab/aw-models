@@ -29,7 +29,7 @@ int fit_to_model ( System *data, info *user_data ) {
 	double chisq, chisq0;
 	int status, info;
 
-	fdf_params.trs = gsl_multifit_nlinear_trs_lm;
+	fdf_params.trs = gsl_multifit_nlinear_trs_lmaccel;
 
 	n = data->description.dataset_size;
 	p = data->description.n_of_comps;
