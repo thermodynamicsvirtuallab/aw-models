@@ -560,10 +560,10 @@ double uni_ind ( int i, int j, int n, const gsl_vector *K ) {
 	double retval;
 
 	retval = 0;
-	if ( i > j ) {
-		retval = gsl_vector_get ( K, i - 1 + ( n - 1 ) * j );
-	} else if ( i < j ) {
-		retval = gsl_vector_get ( K, i+ ( n - 1 ) * j );
+	if ( j > i ) {
+		retval = gsl_vector_get ( K, j - 1 + ( n - 1 ) * i );
+	} else if ( j < i ) {
+		retval = gsl_vector_get ( K, j + ( n - 1 ) * i );
 	}
 
 	return retval;
