@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 
-echo "pressure,raoult,virial" > doc/pressure_fructose.csv
-echo "pressure,raoult,virial" > doc/pressure_glucose.csv
+echo "pressure,raoult,norrish,uniquac,virial" > /tmp/pressure_fructose.csv
+echo "pressure,raoult,norrish,uniquac,virial" > /tmp/pressure_glucose.csv
 
 for file in $(ls data/converted/maximo_10_d_* | grep kPa)
 do
@@ -10,7 +10,11 @@ do
 	echo "$file" | cut -d '_' -f 5,6 | tr '_' '.' | tr '\n' ','
 	./bin/FitWaterActivity -m raoult -f "$file" \
 		| grep final | tr -cd '[0-9]\.\n' | tr '\n' ','
+	./bin/FitWaterActivity -m norrish -f "$file" \
+		| grep final | tr -cd '[0-9]\.\n' | tr '\n' ','
+	./bin/FitWaterActivity -m uniquac -f "$file" \
+		| grep final | tr -cd '[0-9]\.\n' | tr '\n' ','
 	./bin/FitWaterActivity -m virial -f "$file" -q \
 		| grep final | tr -cd '[0-9]\.\n'
-	) >> doc/pressure_"$sugar".csv
+	) >> /tmp/pressure_"$sugar".csv
 done

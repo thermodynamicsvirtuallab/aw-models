@@ -10,10 +10,10 @@ analyze_list () {
 
 	for list in $@; do
 		field=5
-		final_string="|    ——    |\n"
+		final_string="│    ——    │\n"
 		if $(cat $list | head -n 1 | grep ',' >/dev/null); then
 			field=6
-			final_string="  |\n"
+			final_string="  │\n"
 		fi
 		for files in $(cat $list); do
 			file=$(echo $files | cut -d ',' -f 1)
@@ -46,7 +46,7 @@ analyze_list () {
 				echo $string
 			done
 		done | datamash mean 1-"$field" -t ',' -R 6 --narm \
-			| tr ',' '|' \
+			| sed 's/,/│/g' \
 			| tr -d '\n'
 		printf "$final_string"
 	done
@@ -54,32 +54,32 @@ analyze_list () {
 }
 
 printf \
-"+—————————————————————+————————+————————+————————+————————+————————+——————————+\n"
+"┌─────────────────────┬────────┬────────┬────────┬────────┬────────┬──────────┐\n"
 printf \
-"|Comparisons          |Norrish | Virial |UNIQUAC | Raoult | Caurie |Zdanovskii|\n"
+"│Comparisons          │Norrish │ Virial │UNIQUAC │ Raoult │ Caurie │Zdanovskii│\n"
 printf \
-"|—————————————————————+————————+————————+————————+————————+————————+——————————|\n"
+"├─────────────────────┼────────┼────────┼────────┼────────┼────────┼──────────┤\n"
 
-printf "|Aminoacids           |"
+printf "│Aminoacids           │"
 analyze_list data/lists/aminoacids.txt
-printf "|Carbohydrates        |"
+printf "│Carbohydrates        │"
 analyze_list data/lists/mono_carbohydrates.txt
 printf \
-"|—————————————————————+————————+————————+————————+————————+————————+——————————|\n"
+"├─────────────────────┼────────┼────────┼────────┼────────┼────────┼──────────┤\n"
 
-printf "|Binary systems       |"
+printf "│Binary systems       │"
 analyze_list data/lists/mono_carbohydrates.txt
-printf "|Ternary systems      |"
+printf "│Ternary systems      │"
 analyze_list data/lists/ternary_carbohydrates.txt
-printf "|Quaternary systems   |"
+printf "│Quaternary systems   │"
 analyze_list data/lists/quaternary_carbohydrates.txt
 printf \
-"|—————————————————————+————————+————————+————————+————————+————————+——————————|\n"
+"├─────────────────────┼────────┼────────┼────────┼────────┼────────┼──────────┤\n"
 
-printf "|Caurie\'s model       |"
+printf "│Caurie\'s model       │"
 analyze_list data/lists/multi_caurie.txt
 
-printf "|Zdanovskii\'s relation|"
+printf "│Zdanovskii\'s relation│"
 analyze_list data/lists/zdan_carbohydrates.txt
 printf \
-"+—————————————————————+————————+————————+————————+————————+————————+——————————+\n"
+"└─────────────────────┴────────┴────────┴────────┴────────┴────────┴──────────┘\n"

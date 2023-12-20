@@ -18,7 +18,8 @@ do
 		kopts=$(./bin/FitWaterActivity \
 				-M 2000 -f /tmp/"$model"_train_"$name" -m "$model" -q \
 				-A -F /tmp/"$model"_train_results_"$name" \
-				| grep "b_[0-9]\|c_[0-9]\|K_[0-9]\|q_[0-9]\|u_[0-9]"\
+				| grep "b_[0-9]\|c_[0-9]\|K_[0-9]\|A_[0-9]"\
+				| grep -v "A_00\|A_11\|A_22\|A_33" \
 				| cut -d '=' -f 2 \
 				| cut -f 1 -d '/' \
 				| sed -e 's/\+$//g' \
@@ -36,6 +37,6 @@ do
 			| tr '\n' ',' | sed -e 's/,$//g'
 		echo
 	done | awk -F ',' '{print sqrt(($2-$1)^2)","sqrt(($2-$3)^2)}'
-	) > doc/test_and_train_diff_"$model".csv
+	) > /tmp/test_and_train_diff_"$model".csv
 done
 

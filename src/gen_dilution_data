@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-echo 'aw,xw,norrish,virial,uniquac,raoult,caurie' > doc/dilution_mono.csv
+echo 'aw,xw,norrish,virial,uniquac,raoult,caurie'
 
 for file in $(cat data/lists/mono_all.csv)
 do
@@ -16,4 +16,4 @@ do
 		| tr -d '\ \t' \
 		| tr '\n' ',' \
 		| sed -e 's/,$/\n/g'
-done >> doc/dilution_mono.csv
+done
