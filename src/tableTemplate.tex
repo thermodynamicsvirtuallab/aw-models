@@ -1,0 +1,125 @@
+\documentclass[border=1cm]{standalone}
+
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{hhline}
+
+\renewcommand{\arraystretch}{1.8}
+
+\begin{document}
+
+\begin{table}[!h]                                                            %B
+\centering                                                                   %B
+	\caption{Least-squares fitting results for solutions %               %B
+		of water and FIRST \cite{SOURCE}}                            %B
+\begin{tabular}{| l | l l l l l|}\hline                                      %B
+	\multicolumn{6}{|c|}{AUTHORSHIP (YEAR) \cite{SOURCE}}\\              %B
+	\multicolumn{6}{|c|}{water (0), FIRST(1)}\\\hline                    %B
+	\multicolumn{6}{|l |}{Values for the adjustable %                    %B
+		parameters}\\\hhline{~-----}                                 %B
+	\multirow{2}*{\rotatebox[origin=c]{90}{Norrish}} %                   %B
+		& \multirow{2}*{$K_1$} & \multirow{2}*{NK1} & & & \\         %B
+		& & & & & \\\hhline{~-----}                                  %B
+	\multirow{2}*{\rotatebox[origin=c]{90}{Virial}} %                    %B
+		& \multirow{2}*{$b_1$} & \multirow{2}*{VB1} & & & \\         %B
+		& & & & & \\\hhline{~-----}                                  %B
+	\multirow{3}*{\rotatebox[origin=c]{90}{UNIQUAC}} & %                 %B
+		& $A_{i0}$ & $A_{i1}$ & & \\                                 %B
+		& $A_{0i}$ & UA00 & UA01 & & \\                              %B
+		& $A_{1i}$ & UA10 & UA11 & & \\\hline                        %B
+	\multicolumn{6}{|l |}{Indicators of quality of fit}\\\hhline{~-----} %B
+		& Model %                                                    %B
+		& $L$                                                        %B
+		& $\overline{R}_\phi^2$ %                                    %B
+		& $\overline{R}_{a_w}^2$ %                                   %B
+		& RMSE \\                                                    %B
+		& Raoult & 0 & RPR & RAR & RMR \\                            %B
+		& Norrish & 1 & RPN & RAN & RMN \\                           %B
+		& Virial & 1 & RPV & RAV & RMV \\                            %B
+		& UNIQUAC & 2 & RPU & RAU & RMU \\\hline                     %B
+\end{tabular}                                                                %B
+\label{NAME}                                                                 %B
+\end{table}                                                                  %B
+
+\begin{table}[!h]                                                            %T
+\centering                                                                   %T
+	\caption{Least-squares fitting results for solutions %               %T
+		of water, FIRST and SECOND \cite{SOURCE}}                    %T
+\begin{tabular}{| l | l l l l l|}\hline                                      %T
+	\multicolumn{6}{|c|}{AUTHORSHIP (YEAR) \cite{SOURCE}}\\              %T
+	\multicolumn{6}{|c|}{water (0), FIRST(1), SECOND(2)}\\\hline         %T
+	\multicolumn{6}{|l |}{Values for the adjustable %                    %T
+			parameters}\\\hhline{~-----}                         %T
+	\multirow{2}*{\rotatebox[origin=c]{90}{Norrish}} %                   %T
+		& $K_1$ & NK1 & & & \\                                       %T
+		& $K_2$ & NK2 & & & \\\hhline{~-----}                        %T
+	\multirow{5}*{\rotatebox[origin=c]{90}{Virial}} %                    %T
+		& $b_1$ & VB1 & & & \\                                       %T
+		& $b_2$ & VB2 & & & \\\hhline{~~--~}                         %T
+		& & $c_{i1}$ & $c_{i2}$ & & \\                               %T
+		& $c_{1j}$ & --- & VC12 & & \\                               %T
+		& $c_{2j}$ & VC12 & --- & & \\\hhline{~-----}                %T
+	\multirow{4}*{\rotatebox[origin=c]{90}{UNIQUAC}} & %                 %T
+		& $A_{i0}$ & $A_{i1}$ & $A_{i2}$ & \\                        %T
+		& $A_{0i}$ & UA00 & UA01 & UA02 & \\                         %T
+		& $A_{1i}$ & UA10 & UA11 & UA12 & \\                         %T
+		& $A_{2i}$ & UA20 & UA21 & UA22 & \\\hline                   %T
+	\multicolumn{6}{|l |}{Indicators of quality of fit}\\\hhline{~-----} %T
+		& Model %                                                    %T
+		& $L$                                                        %T
+		& $\overline{R}_\phi^2$ %                                    %T
+		& $\overline{R}_{a_w}^2$ %                                   %T
+		& RMSE \\                                                    %T
+		& Raoult & 0 & RPR & RAR & RMR \\                            %T
+		& Norrish & 2 & RPN & RAN & RMN \\                           %T
+		& Virial & 3 & RPV & RAV & RMV \\                            %T
+		& UNIQUAC & 6 & RPU & RAU & RMU \\\hline                     %T
+\end{tabular}                                                                %T
+\label{NAME}                                                                 %T
+\end{table}                                                                  %T
+
+\begin{table}[!h]                                                            %Q
+\centering                                                                   %Q
+	\caption{Least-squares fitting results for solutions %               %Q
+		of water, FIRST, SECOND and THIRD \cite{SOURCE}}             %Q
+\begin{tabular}{| l | l l l l l|}\hline                                      %Q
+	\multicolumn{6}{|c|}{AUTHORSHIP (YEAR) \cite{SOURCE}}\\              %Q
+	\multicolumn{6}{|c|}{water (0), FIRST(1), SECOND(2), %               %Q
+			THIRD(3)}\\\hline                                    %Q
+	\multicolumn{6}{|l |}{Values for the adjustable %                    %Q
+			parameters}\\\hhline{~-----}                         %Q
+	\multirow{3}*{\rotatebox[origin=c]{90}{Norrish}} %                   %Q
+		& $K_1$ & NK1 & & & \\                                       %Q
+		& $K_2$ & NK2 & & & \\                                      %Q
+		& $K_3$ & NK3 & & & \\\hhline{~-----}                      %Q
+	\multirow{7}*{\rotatebox[origin=c]{90}{Virial}} %                    %Q
+		& $b_1$ & VB1 & & & \\                                       %Q
+		& $b_2$ & VB2 & & & \\                                       %Q
+		& $b_3$ & VB3 & & & \\\hhline{~~--~}                         %Q
+		& & $c_{i1}$ & $c_{i2}$ & $c_{i3}$ & \\                      %Q
+		& $c_{1j}$ & --- & VC12 & VC13 & \\                          %Q
+		& $c_{2j}$ & VC12 & --- & VC23 & \\                          %Q
+		& $c_{3j}$ & VC13 & VC23 & --- & \\\hhline{~-----}           %Q
+	\multirow{4}*{\rotatebox[origin=c]{90}{UNIQUAC}} & %                 %Q
+		& $A_{i0}$ & $A_{i1}$ & $A_{i2}$ & $A_{i3}$ \\               %Q
+		& $A_{0i}$ & UA00 & UA01 & UA02 & UA03 \\                    %Q
+		& $A_{1i}$ & UA10 & UA11 & UA12 & UA13 \\                    %Q
+		& $A_{2i}$ & UA20 & UA21 & UA22 & UA23 \\                    %Q
+		& $A_{3i}$ & UA30 & UA31 & UA32 & UA33 \\\hline              %Q
+	\multicolumn{6}{|l |}{Indicators of quality of fit}\\\hhline{~-----} %Q
+		& Model %                                                    %Q
+		& $L$                                                        %Q
+		& $\overline{R}_\phi^2$ %                                    %Q
+		& $\overline{R}_{a_w}^2$ %                                   %Q
+		& RMSE \\                                                    %Q
+		& Raoult & 0 & RPR & RAR & RMR \\                            %Q
+		& Norrish & 3 & RPN & RAN & RMN \\                           %Q
+		& Virial & 6 & RPV & RAV & RMV \\                            %Q
+		& UNIQUAC & 12  & RPU & RAU & RMU \\\hline                   %Q
+\end{tabular}                                                                %Q
+\label{NAME}                                                                 %Q
+\end{table}                                                                  %Q
+
+\end{document}
