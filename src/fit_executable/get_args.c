@@ -61,8 +61,8 @@ void print_usage (void) {
 /* read arguments and options from user */
 void getargs ( int argc, char **argv, info *user_data ) {
 
-	int opt, gave_file, index, count, K;
-	double next, *tmp_K;
+	int opt, gave_file, index, count, K, T;
+	double next, *tmp_K, *tmp_T;
 	char *endptr_K, *endptr_T;
 
 	opterr = 0; /* This is a very ugly hack; if the user-informed
@@ -94,6 +94,7 @@ void getargs ( int argc, char **argv, info *user_data ) {
 	user_data->cost = 0;
 	user_data->K = NULL;
 	user_data->K_number = 0;
+	user_data->T_number = 0;
 	user_data->is_all = FALSE;
 	user_data->not_zdan = FALSE;
 	user_data->files_zdan = NULL;
@@ -102,9 +103,9 @@ void getargs ( int argc, char **argv, info *user_data ) {
 	user_data->has_aw_data = TRUE;
 	user_data->max_iter = MAX_ITER;
 	user_data->aw_in_results = FALSE;
-	user_data->temp = TEMP;
+	user_data->temp = NULL;
 
-	while ( ( opt = getopt ( argc, argv, "hqf:F:m:Z:M:K:OEAT" ) ) != -1 ) {
+	while ( ( opt = getopt ( argc, argv, "hqf:F:m:Z:M:K:OEAT:" ) ) != -1 ) {
 		switch (opt) {
 			case 'h':
 				free (user_data->model);
@@ -182,7 +183,34 @@ void getargs ( int argc, char **argv, info *user_data ) {
 				user_data->max_iter = atoi (optarg);
 				break;
 			case 'T':
-				user_data->temp = strtod(argv[optind], &endptr_T);
+				/*
+				* This option reads a series of temperatures,
+				* storing it in the temp attribute of a
+				* Metadata struct.
+				*/
+				index = optind - 1;
+				T = 0;
+				while ( index < argc ) {
+					errno = 0;
+					next = strtod ( argv[index], &endptr_T );
+					if ( errno == 0 && *endptr_T == '\0' ) {
+						if (next < 200.0) {
+							next += TEMP;
+						}
+						T++;
+						tmp_T = realloc ( user_data->temp,
+							T * sizeof (double) );
+						if ( tmp_T == NULL ) {
+							fprintf ( stderr,
+								"Memory error\n" );
+							exit (56);
+						}
+						user_data->temp = tmp_T;
+						user_data->temp[T-1] = next;
+						user_data->T_number = T;
+					} else break;
+					index++;
+				}
 				break;
 			case 'K':
 				/*

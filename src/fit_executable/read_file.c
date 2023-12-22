@@ -15,8 +15,8 @@ void initialize ( char *filename, Metadata *system_description,
 	char tmpchar, str[256];
 	char **composition;
 	double **x_values;
-	double *y_values;
-	double avg_aw, avg_xw;
+	double *y_values, *tmp_T;
+	double avg_aw, avg_xw, temperature;
 	FILE *file;
 
 	file = fopen ( filename, "r" );
@@ -155,6 +155,24 @@ void initialize ( char *filename, Metadata *system_description,
 	system->aw = y_values;
 
 
+	if (user_data->temp == NULL) {
+		temperature = TEMP;
+		user_data->temp = malloc(lines * sizeof(double));
+		for ( i = 0; i < lines; i++ ) {
+			user_data->temp[i] = temperature;
+		}
+	} else if (user_data->T_number == 1) {
+		temperature = user_data->temp[0];
+		tmp_T = realloc ( user_data->temp, lines*sizeof(double) );
+		if ( tmp_T == NULL ) {
+			fprintf ( stderr, "Memory error\n" );
+			exit(56);
+		}
+		user_data->temp = tmp_T;
+		for ( i = 1; i < lines; i++ ) {
+			user_data->temp[i] = temperature;
+		}
+	}
 	system_description->temp = user_data->temp;
 
 	fprintf ( stdout, "%d lines read from file \"%s\".\n",
@@ -244,6 +262,9 @@ void finalize ( Metadata *system_description, Data *system,
 
 	if ( user_data->K != NULL ) {
 		free (user_data->K);
+	}
+	if ( user_data->temp != NULL ) {
+		free (user_data->temp);
 	}
 
 	free (system_description->components);

@@ -56,7 +56,7 @@ typedef struct {
 	char **components;
 	double *q_vals;
 	double *r_vals;
-	double temp;
+	double *temp;
 } Metadata;
 
 typedef struct {
@@ -78,10 +78,11 @@ typedef struct {
 	char *filename;
 	char *filename_new_results;
 	char **files_zdan;
-	double cost;
 	double *K;
-	double temp;
+	double *temp;
+	double cost;
 	int K_number;
+	int T_number;
 	int quiet;
 	int is_all;
 	int gave_filenames;

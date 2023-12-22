@@ -91,7 +91,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
 			A_jw = uni_ind( j+1, 0, p+1, K );
-			tau_jw = exp ( - A_jw / ( R * data->description.temp ) );
+			tau_jw = exp ( - A_jw / ( R * data->description.temp[i] ) );
 			sumthetajtaujw += theta_j * tau_jw;
 		}
 
@@ -110,7 +110,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 				theta_k = ( q_k * x_k ) / sumqjxj;
 				A_kj = uni_ind ( k + 1, j + 1, p + 1, K );
 				tau_kj = exp ( - A_kj /
-						( R * data->description.temp ) );
+						( R * data->description.temp[i] ) );
 				sumthetaktaukj += theta_k * tau_kj;
 			}
 
@@ -125,7 +125,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			}
 			theta_j = ( q_j * x_j ) / sumqjxj;
 			A_wj = uni_ind ( 0, j + 1, p + 1, K );
-			tau_wj = exp ( - A_wj / ( R * data->description.temp ) );
+			tau_wj = exp ( - A_wj / ( R * data->description.temp[i] ) );
 
 			sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;
 
@@ -166,7 +166,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 			sumthetajtaujw = theta_w;
 			theta_j = ( q_j * x_j ) / sumqjxj;
 			A_jw = uni_ind ( 1, 0, p + 1, K );
-			tau_jw = exp ( - A_jw / ( R * data->description.temp ) );
+			tau_jw = exp ( - A_jw / ( R * data->description.temp[i] ) );
 			sumthetajtaujw += theta_j * tau_jw;
 
 			sumsum = 0;
@@ -184,7 +184,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 					theta_k = ( q_k * x_k ) / sumqjxj;
 					A_kj = uni_ind ( k+1, j+1, p+1, K );
 					tau_kj = exp ( - A_kj /
-						( R * data->description.temp ) );
+						( R * data->description.temp[i] ) );
 					sumthetaktaukj += theta_k * tau_kj;
 				}
 
@@ -200,7 +200,7 @@ int phi_uniquac ( const gsl_vector *K, void *params, gsl_vector * f ) {
 				theta_j = ( q_j * x_j ) / sumqjxj;
 				A_wj = uni_ind ( 0, j+1, p+1, K );
 				tau_wj = exp ( - A_wj /
-						( R * data->description.temp ) );
+						( R * data->description.temp[i] ) );
 
 				sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;
 
@@ -408,7 +408,7 @@ void save_uniquac ( System *data, info *user_data,
 			x_j = data->x_and_aw.x[i][j];
 			theta_j = ( q_j * x_j ) / sumqjxj;
 			A_jw = uni_ind( j + 1, 0, p + 1, w->x );
-			tau_jw = exp ( - A_jw / ( R * data->description.temp ) );
+			tau_jw = exp ( - A_jw / ( R * data->description.temp[i] ) );
 			sumthetajtaujw += theta_j * tau_jw;
 		}
 
@@ -427,7 +427,7 @@ void save_uniquac ( System *data, info *user_data,
 				theta_k = ( q_k * x_k ) / sumqjxj;
 				A_kj = uni_ind ( k + 1, j + 1, p + 1, w->x );
 				tau_kj = exp ( - A_kj /
-						( R * data->description.temp ) );
+						( R * data->description.temp[i] ) );
 				sumthetaktaukj += theta_k * tau_kj;
 			}
 
@@ -443,7 +443,7 @@ void save_uniquac ( System *data, info *user_data,
 			theta_j = ( q_j * x_j ) / sumqjxj;
 			A_wj = uni_ind ( 0, j + 1, p + 1, w->x );
 			tau_wj = exp ( - A_wj /
-					( R * data->description.temp ) );
+					( R * data->description.temp[i] ) );
 
 			sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;
 
@@ -485,7 +485,7 @@ void save_uniquac ( System *data, info *user_data,
 			theta_j = ( q_j * x_j ) / sumqjxj;
 			A_jw = uni_ind ( 1, 0, p + 1, w->x );
 			tau_jw = exp ( - A_jw /
-					( R * data->description.temp ) );
+					( R * data->description.temp[i] ) );
 			sumthetajtaujw += theta_j * tau_jw;
 
 			sumsum = 0;
@@ -503,7 +503,7 @@ void save_uniquac ( System *data, info *user_data,
 					theta_k = ( q_k * x_k ) / sumqjxj;
 					A_kj = uni_ind ( k+1, j+1, p+1, w->x );
 					tau_kj = exp ( - A_kj /
-						( R * data->description.temp ) );
+						( R * data->description.temp[i] ) );
 					sumthetaktaukj += theta_k * tau_kj;
 				}
 
@@ -519,7 +519,7 @@ void save_uniquac ( System *data, info *user_data,
 				theta_j = ( q_j * x_j ) / sumqjxj;
 				A_wj = uni_ind ( 0, j+1, p+1, w->x );
 				tau_wj = exp ( - A_wj /
-						( R * data->description.temp ) );
+						( R * data->description.temp[i] ) );
 
 				sumsum += ( theta_j * tau_wj ) / sumthetaktaukj;
 
