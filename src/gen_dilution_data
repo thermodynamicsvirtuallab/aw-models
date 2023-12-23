@@ -8,7 +8,21 @@ do
 		| grep romero_06_dl_alpha_aminobutyric_acid_288_15_K >/dev/null \
 			|| echo 200000 \
 			&& echo 200)"
+	name=$(basename $file)
+	temp_series=$(head -n 1 data/originals/$name \
+		| grep -v -q "^aw\|^m_\|^phi\|^pkpa" \
+		&& cut -d ',' -f 1 data/originals/$name \
+		| grep -v [A-Za-z] \
+		| tr '\n' ' ')
+	temp_val=$(echo $name \
+		| grep 'K\.' \
+		| rev \
+		| cut -d '.' -f 2 \
+		| cut -d '_' -f 2,3 \
+		| tr '_' '.' \
+		| rev)
 	./bin/FitWaterActivity -m all -f "$file" -O -q -M "$Mval" \
+		-T $temp_series $temp_val \
 		| grep -v read \
 		| sed -e 's/for/:/g' \
 		| sed -e 's/=/:/g' \

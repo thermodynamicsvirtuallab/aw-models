@@ -1,4 +1,4 @@
 data/converted/abderafi_94_sucrose_glucose_fructose.csv
-data/converted/velezmoro_00_fructose_glucose_sucrose_25_C.csv
-data/converted/velezmoro_00_fructose_glucose_sucrose_30_C.csv
-data/converted/velezmoro_00_fructose_glucose_sucrose_35_C.csv
+data/converted/velezmoro_00_fructose_glucose_sucrose_298_15_K.csv
+data/converted/velezmoro_00_fructose_glucose_sucrose_303_15_K.csv
+data/converted/velezmoro_00_fructose_glucose_sucrose_308_15_K.csv

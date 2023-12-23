@@ -37,9 +37,9 @@ data/converted/romero_06_glycine_288_15_K.csv
 data/converted/romero_06_glycine_293_15_K.csv
 data/converted/romero_06_glycine_298_15_K.csv
 data/converted/romero_06_glycine_303_15_K.csv
-data/converted/tsurko_07_glutamic_acid_298_15.csv
-data/converted/tsurko_07_glutamic_acid_310_15.csv
-data/converted/tsurko_07_glycine_298_15.csv
-data/converted/tsurko_07_glycine_310_15.csv
-data/converted/tsurko_07_histidine_298_15.csv
-data/converted/tsurko_07_histidine_310_15.csv
+data/converted/tsurko_07_glutamic_acid_298_15_K.csv
+data/converted/tsurko_07_glutamic_acid_310_15_K.csv
+data/converted/tsurko_07_glycine_298_15_K.csv
+data/converted/tsurko_07_glycine_310_15_K.csv
+data/converted/tsurko_07_histidine_298_15_K.csv
+data/converted/tsurko_07_histidine_310_15_K.csv

@@ -19,9 +19,23 @@ analyze_list () {
 			file=$(echo $files | cut -d ',' -f 1)
 			lines=$(wc -l $file | cut -d ' ' -f 1)
 			lines=$((lines-1))
+			name=$(basename $file)
+			temp_series=$(head -n 1 data/originals/$name \
+				| grep -v -q "^aw\|^m_\|^phi\|^pkpa" \
+				&& cut -d ',' -f 1 data/originals/$name \
+				| grep -v [A-Za-z] \
+				| tr '\n' ' ')
+			temp_val=$(echo $name \
+				| grep 'K\.' \
+				| rev \
+				| cut -d '.' -f 2 \
+				| cut -d '_' -f 2,3 \
+				| tr '_' '.' \
+				| rev)
 			if $(echo $files | grep -v ',' >/dev/null ); then
 				string=$(./bin/FitWaterActivity \
 					-m all -M 200 -f $file -O \
+					-T $temp_series $temp_val \
 					| grep model \
 					| sed -e 's/nan/\.\.\./g' \
 					| tr -cd '[0-9]\.\n' \
@@ -33,6 +47,7 @@ analyze_list () {
 				zdan2=$(echo $files | cut -d ',' -f 3)
 				string=$(./bin/FitWaterActivity \
 					-m all -M 200 -f $file -Z $zdan1 $zdan2 \
+					-T $temp_series $temp_val \
 					| grep model \
 					| sed -e 's/nan/\.\.\./g' \
 					| tr -cd '[0-9]\.\n' \

@@ -6,8 +6,8 @@ data/converted/ebrahimi_16_ribose.csv,0.984620
 data/converted/ebrahimi_16_sorbitol.csv,0.983317
 data/converted/ebrahimi_16_sucrose.csv,0.981041
 data/converted/ebrahimi_16_xylose.csv,0.981913
-data/converted/velezmoro_00_maltose_25_C.csv,0.987200
-data/converted/velezmoro_00_maltose_30_C.csv,0.985333
-data/converted/velezmoro_00_maltose_35_C.csv,0.984444
-data/converted/velezmoro_00_sucrose_25_C.csv,0.982615
-data/converted/velezmoro_00_sucrose_30_C.csv,0.981385
+data/converted/velezmoro_00_maltose_298_15_K.csv,0.987200
+data/converted/velezmoro_00_maltose_303_15_K.csv,0.985333
+data/converted/velezmoro_00_maltose_308_15_K.csv,0.984444
+data/converted/velezmoro_00_sucrose_298_15_K.csv,0.982615
+data/converted/velezmoro_00_sucrose_303_15_K.csv,0.981385

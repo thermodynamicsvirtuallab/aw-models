@@ -1,0 +1,44 @@
+#! /bin/bash
+
+
+for model in {norrish,virial,uniquac}
+do
+	echo "iter" > /tmp/iter_${model}.csv
+done
+
+for file in $(cat data/lists/mono_all.csv)
+do
+	name=$(basename $file)
+	temp_series=$(head -n 1 data/originals/$name \
+		| grep -v -q "^aw\|^m_\|^phi\|^pkpa" \
+		&& cut -d ',' -f 1 data/originals/$name \
+		| grep -v [A-Za-z] \
+		| tr '\n' ' ')
+	temp_val=$(echo $name \
+		| grep 'K\.' \
+		| rev \
+		| cut -d '.' -f 2 \
+		| cut -d '_' -f 2,3 \
+		| tr '_' '.' \
+		| rev)
+	for model in {raoult,norrish,virial,uniquac}
+	do
+		./bin/FitWaterActivity \
+			-f data/converted/$name \
+			-T $temp_series $temp_val \
+			-F /tmp/results_${model}_${name} \
+			-M 20000 \
+			-m ${model} \
+			-A 2>&1 | tee /tmp/data_${model}_${name} >/dev/null
+	done
+
+	for model in {norrish,virial,uniquac}
+	do
+		cat /tmp/data_${model}_${name} \
+			| grep Iteration \
+			| tail -n 1 \
+			| tr -cd "[0-9\n]" >> /tmp/iter_${model}.csv
+	done
+
+done
+

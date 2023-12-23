@@ -10,7 +10,21 @@ make_csv_line () {
 	(
 	./bin/FitWaterActivity -f $1 -m raoult -q | grep final;
 	./bin/FitWaterActivity -f $1 -m norrish -M 200000 -q | grep final;
-	./bin/FitWaterActivity -f $1 -m uniquac -M 200000 -q | grep final;
+	name=$(basename $1)
+	temp_series=$(head -n 1 data/originals/$name \
+		| grep -v -q "^aw\|^m_\|^phi\|^pkpa" \
+		&& cut -d ',' -f 1 data/originals/$name \
+		| grep -v [A-Za-z] \
+		| tr '\n' ' ')
+	temp_val=$(echo $name \
+		| grep 'K\.' \
+		| rev \
+		| cut -d '.' -f 2 \
+		| cut -d '_' -f 2,3 \
+		| tr '_' '.' \
+		| rev)
+	./bin/FitWaterActivity -f $1 -m uniquac \
+		-T $temp_series $temp_val -M 200000 -q | grep final;
 	./bin/FitWaterActivity -f $1 -m virial -M 200000 -K "${@:2}" -q
 	) | grep cost \
 		| cut -d '=' -f 2 \
@@ -75,13 +89,13 @@ stokes () {
 #
 
 velezmoro () {
-	for temp in 25 30 35; do
-		b_fructose=$(get_b data/converted/velezmoro_00_fructose_"$temp"_C.csv)
-		b_glucose=$(get_b data/converted/velezmoro_00_glucose_"$temp"_C.csv)
-		b_sucrose=$(get_b data/converted/velezmoro_00_sucrose_"$temp"_C.csv)
+	for temp in 298_15 303_15 308_15; do
+		b_fructose=$(get_b data/converted/velezmoro_00_fructose_"$temp"_K.csv)
+		b_glucose=$(get_b data/converted/velezmoro_00_glucose_"$temp"_K.csv)
+		b_sucrose=$(get_b data/converted/velezmoro_00_sucrose_"$temp"_K.csv)
 
 		make_csv_line \
-			data/converted/velezmoro_00_fructose_glucose_sucrose_"$temp"_C.csv \
+			data/converted/velezmoro_00_fructose_glucose_sucrose_"$temp"_K.csv \
 				$b_fructose $b_glucose 0.0 $b_sucrose 0.0 0.0
 	done
 }
