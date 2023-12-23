@@ -18,95 +18,53 @@ make_table () {
 	NK1=$(grep 'K_0' $nfile | grep '=' \
 		| tr '\t' ' ' | cut -d ' ' -f 4)
 
-	VB1=$(grep 'b_0' $vfile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	VB2=$(grep 'b_1' $vfile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	VB3=$(grep 'b_3' $vfile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	VC12=$(grep 'c_2' $vfile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	VC13=$(grep 'c_4' $vfile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	VC23=$(grep 'c_5' $vfile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
+	VB1=$(grep 'b_0' $vfile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	VB2=$(grep 'b_1' $vfile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	VB3=$(grep 'b_3' $vfile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	VC12=$(grep 'c_2' $vfile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	VC13=$(grep 'c_4' $vfile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	VC23=$(grep 'c_5' $vfile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
 
-	UA00=$(grep 'A_00' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA01=$(grep 'A_01' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA02=$(grep 'A_02' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA03=$(grep 'A_03' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA10=$(grep 'A_10' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA11=$(grep 'A_11' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA12=$(grep 'A_12' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA13=$(grep 'A_13' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA20=$(grep 'A_20' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA21=$(grep 'A_21' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA22=$(grep 'A_22' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA23=$(grep 'A_23' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA30=$(grep 'A_30' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA31=$(grep 'A_31' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA32=$(grep 'A_32' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
-	UA33=$(grep 'A_33' $ufile | grep '=' \
-		| tr '\t' ' ' | cut -d ' ' -f 4)
+	UA00=$(grep 'A_00' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA01=$(grep 'A_01' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA02=$(grep 'A_02' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA03=$(grep 'A_03' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA10=$(grep 'A_10' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA11=$(grep 'A_11' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA12=$(grep 'A_12' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA13=$(grep 'A_13' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA20=$(grep 'A_20' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA21=$(grep 'A_21' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA22=$(grep 'A_22' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA23=$(grep 'A_23' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA30=$(grep 'A_30' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA31=$(grep 'A_31' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA32=$(grep 'A_32' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
+	UA33=$(grep 'A_33' $ufile | grep '=' | tr '\t' ' ' | cut -d ' ' -f 4)
 
 	RPR=$(grep "coeff. of determination" $rfile \
-		| grep -v "aw" \
-		| grep '=' \
-		| cut -d ' ' -f 10)
+		| grep -v "aw" | grep '=' | cut -d ' ' -f 10)
 	RAR=$(grep "coeff. of determination (aw)" $rfile \
-		| grep '=' \
-		| cut -d ' ' -f 6)
-	RMR=$(grep "final cost" $rfile \
-		| grep '=' \
-		| cut -d ' ' -f 15)
+		| grep '=' | cut -d ' ' -f 6)
+	RMR=$(grep "final cost" $rfile | grep '=' | cut -d ' ' -f 15)
 
 	RPN=$(grep "coeff. of determination" $nfile \
-		| grep -v "aw" \
-		| grep '=' \
-		| cut -d ' ' -f 6)
+		| grep -v "aw" | grep '=' | cut -d ' ' -f 6)
 	RAN=$(grep "coeff. of determination (aw)" $nfile \
-		| grep '=' \
-		| cut -d ' ' -f 6)
-	RMN=$(grep "final cost" $nfile \
-		| grep '=' \
-		| cut -d ' ' -f 15)
+		| grep '=' | cut -d ' ' -f 6)
+	RMN=$(grep "final cost" $nfile | grep '=' | cut -d ' ' -f 15)
 
 	RPV=$(grep "coeff. of determination" $vfile \
-		| grep -v "aw" \
-		| grep '=' \
-		| cut -d ' ' -f 6)
+		| grep -v "aw" | grep '=' | cut -d ' ' -f 6)
 	RAV=$(grep "coeff. of determination (aw)" $vfile \
-		| grep '=' \
-		| cut -d ' ' -f 6)
-	RMV=$(grep "final cost" $vfile \
-		| grep '=' \
-		| cut -d ' ' -f 15)
+		| grep '=' | cut -d ' ' -f 6)
+	RMV=$(grep "final cost" $vfile | grep '=' | cut -d ' ' -f 15)
 
 	RPU=$(grep "coeff. of determination" $ufile \
-		| grep -v "aw" \
-		| grep '=' \
-		| cut -d ' ' -f 6)
+		| grep -v "aw" | grep '=' | cut -d ' ' -f 6)
 	RAU=$(grep "coeff. of determination (aw)" $ufile \
-		| grep '=' \
-		| cut -d ' ' -f 6)
-	RMU=$(grep "final cost" $ufile \
-		| grep '=' \
-		| cut -d ' ' -f 15)
+		| grep '=' | cut -d ' ' -f 6)
+	RMU=$(grep "final cost" $ufile | grep '=' | cut -d ' ' -f 15)
 
 	array=("$@")
 	YEAR=$3
@@ -161,7 +119,7 @@ make_table () {
 		| sed "s/NAME/r_${NAME}/" \
 		| sed "s/\ *%B//g" \
 		| sed "s/\ *%T//g" \
-		| sed "s/\ *%B//g"
+		| sed "s/\ *%Q//g"
 
 	echo
 }
@@ -172,20 +130,26 @@ do
 			data/lists/ternary_carbohydrates.txt \
 			data/lists/quaternary_carbohydrates.txt)
 	do
-		tempK=$(echo $file \
-			| sed 's/30_C/303_15_K/;s/35_C/308_15_K/' \
-			| grep '_K' \
-			| cut -d '_' -f 3- \
-			| sed 's/_K\.csv//' \
+		name=$(basename $file)
+		temp_series=$(head -n 1 data/originals/$name \
+			| grep -v -q "^aw\|^m_\|^phi\|^pkpa" \
+			&& cut -d ',' -f 1 data/originals/$name \
+			| grep -v [A-Za-z] \
+			| tr '\n' ' ')
+		temp_val=$(echo $name \
+			| grep 'K\.' \
 			| rev \
-			| cut -d '_' -f -2 \
-			| tr '_' '.' | rev | sed 's/^/-T /')
+			| cut -d '.' -f 2 \
+			| cut -d '_' -f 2,3 \
+			| tr '_' '.' \
+			| rev)
 		head -n1 $file > /tmp/${model}_$(basename -- $file)
 		./bin/FitWaterActivity \
 			-f $file \
 			-F /tmp/file.csv \
 			-m $model \
-			-q -M 20000 $tempK >> /tmp/${model}_$(basename -- $file)
+			-q -M 20000 \
+			-T $temp_series $temp_val >> /tmp/${model}_$(basename -- $file)
 	done
 done
 
@@ -236,6 +200,18 @@ make_table ./src/tableTemplate.tex \
 	2003 \
 	bhandari2003 \
 	"Bhandari \\\\\\& Bareyre" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/bonner_82_arginine.csv \
+	1982 \
+	bonner1982 \
+	"Bonner" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/bonner_82_lysine.csv \
+	1982 \
+	bonner1982 \
+	"Bonner" B
 
 make_table ./src/tableTemplate.tex \
 	data/converted/chen_87_fructose.csv \
@@ -376,6 +352,90 @@ make_table ./src/tableTemplate.tex \
 	"Ebrahimi \\\\\\& Sadeghi" B
 
 make_table ./src/tableTemplate.tex \
+	data/converted/ellerton_64_alpha_amino_n_butyric_acid.csv \
+	1964 \
+	ellerton1964 \
+	"Ellerton \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/ellerton_64_glycine.csv \
+	1964 \
+	ellerton1964 \
+	"Ellerton \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/ellerton_64_glycylglycine.csv \
+	1964 \
+	ellerton1964 \
+	"Ellerton \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/ellerton_64_lactamide.csv \
+	1964 \
+	ellerton1964 \
+	"Ellerton \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/ellerton_64_valine.csv \
+	1964 \
+	ellerton1964 \
+	"Ellerton \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_dl_alanine.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_dl_methionine.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_dl_valine.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_glycine.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_hydroxy_l_proline.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_l_isoleucine.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_l_proline.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_l_serine.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/himanshu_05_l_threonine.csv \
+	2005 \
+	himanshu2005 \
+	"Himanshu, Priyanka \\\\\\& Anakshi" B
+
+make_table ./src/tableTemplate.tex \
 	data/converted/kiyosawa_92_1_2_3_4_butanetetrol.csv \
 	1992 \
 	kiyosawa1992 \
@@ -404,6 +464,30 @@ make_table ./src/tableTemplate.tex \
 	1992 \
 	kiyosawa1992 \
 	"Kiyosawa" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/kuramochi_97_glycine.csv \
+	1997 \
+	kuramochi1997 \
+	"Kuramochi \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	./data/converted/kuramochi_97_l_alanine.csv \
+	1997 \
+	kuramochi1997 \
+	"Kuramochi \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/kuramochi_97_l_serine.csv \
+	1997 \
+	kuramochi1997 \
+	"Kuramochi \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/kuramochi_97_l_valine.csv \
+	1997 \
+	kuramochi1997 \
+	"Kuramochi \\\textit{et al.}" B
 
 make_table ./src/tableTemplate.tex \
 	data/converted/maximo_10_d_fructose_20_0_kPa.csv \
@@ -562,258 +646,6 @@ make_table ./src/tableTemplate.tex \
 	"Maximo, Meirelles \\\\\\& Batista" B
 
 make_table ./src/tableTemplate.tex \
-	data/converted/stokes_61_mannitol.csv \
-	1961 \
-	stokes1961 \
-	"Robinson \\\\\\& Stokes" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/stokes_61_sucrose.csv \
-	1961 \
-	stokes1961 \
-	"Robinson \\\\\\& Stokes" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/stokes_61_sucrose_mannitol.csv \
-	1961 \
-	stokes1961 \
-	"Robinson \\\\\\& Stokes" T
-
-make_table ./src/tableTemplate.tex \
-	data/converted/stokes_66_sucrose_arabinose_ref_sucrose.csv \
-	1966 \
-	stokes \
-	"Stokes \\\\\\& Robinson" T
-
-make_table ./src/tableTemplate.tex \
-	data/converted/stokes_66_sucrose_glucose_ref_sucrose.csv \
-	1966 \
-	stokes \
-	"Stokes \\\\\\& Robinson" T
-
-make_table ./src/tableTemplate.tex \
-	data/converted/stokes_66_sucrose_glycerol_ref_sucrose.csv \
-	1966 \
-	stokes \
-	"Stokes \\\\\\& Robinson" T
-
-make_table ./src/tableTemplate.tex \
-	data/converted/stokes_66_sucrose_sorbitol_ref_sucrose.csv \
-	1966 \
-	stokes \
-	"Stokes \\\\\\& Robinson" T
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_fructose_25_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_fructose_30_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_fructose_35_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_glucose_25_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_glucose_30_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_glucose_35_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_maltose_25_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_maltose_30_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_maltose_35_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_sucrose_25_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_sucrose_30_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_sucrose_35_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_fructose_glucose_sucrose_25_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" Q
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_fructose_glucose_sucrose_30_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" Q
-
-make_table ./src/tableTemplate.tex \
-	data/converted/velezmoro_00_fructose_glucose_sucrose_35_C.csv \
-	2000 \
-	velezmoro2000 \
-	"Velezmoro \\\textit{et al.}" Q
-
-make_table ./src/tableTemplate.tex \
-	data/converted/bonner_82_arginine.csv \
-	1982 \
-	bonner1982 \
-	"Bonner" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/bonner_82_lysine.csv \
-	1982 \
-	bonner1982 \
-	"Bonner" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/ellerton_64_alpha_amino_n_butyric_acid.csv \
-	1964 \
-	ellerton1964 \
-	"Ellerton \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/ellerton_64_glycine.csv \
-	1964 \
-	ellerton1964 \
-	"Ellerton \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/ellerton_64_glycylglycine.csv \
-	1964 \
-	ellerton1964 \
-	"Ellerton \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/ellerton_64_lactamide.csv \
-	1964 \
-	ellerton1964 \
-	"Ellerton \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/ellerton_64_valine.csv \
-	1964 \
-	ellerton1964 \
-	"Ellerton \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_dl_alanine.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_dl_methionine.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_dl_valine.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_glycine.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_hydroxy_l_proline.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_l_isoleucine.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_l_proline.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_l_serine.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/himanshu_05_l_threonine.csv \
-	2005 \
-	himanshu2005 \
-	"Himanshu, Priyanka \\\\\\& Anakshi" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/kuramochi_97_glycine.csv \
-	1997 \
-	kuramochi1997 \
-	"Kuramochi \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	./data/converted/kuramochi_97_l_alanine.csv \
-	1997 \
-	kuramochi1997 \
-	"Kuramochi \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/kuramochi_97_l_serine.csv \
-	1997 \
-	kuramochi1997 \
-	"Kuramochi \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/kuramochi_97_l_valine.csv \
-	1997 \
-	kuramochi1997 \
-	"Kuramochi \\\textit{et al.}" B
-
-make_table ./src/tableTemplate.tex \
 	data/converted/ninni_01_dl_alanine.csv \
 	2001 \
 	ninni2001 \
@@ -836,6 +668,18 @@ make_table ./src/tableTemplate.tex \
 	2001 \
 	ninni2001 \
 	"Ninni \\\\\\& Meirelles" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/norrish_66_sucrose_glycerol.csv \
+	1966 \
+	norrish1966 \
+	"Norrish" T
+
+make_table ./src/tableTemplate.tex \
+	data/converted/norrish_66_sorbitol_sucrose.csv \
+	1966 \
+	norrish1966 \
+	"Norrish" T
 
 make_table ./src/tableTemplate.tex \
 	data/converted/pinho_08_alanine.csv \
@@ -928,50 +772,170 @@ make_table ./src/tableTemplate.tex \
 	"Romero \\\\\\& Gonzalez" B
 
 make_table ./src/tableTemplate.tex \
-	data/converted/tsurko_07_glutamic_acid_298_15.csv \
-	2007 \
-	tsurko2007 \
-	"Tsurko, Neueder \\\\\\& Kunz" B
+	data/converted/stokes_61_mannitol.csv \
+	1961 \
+	stokes1961 \
+	"Robinson \\\\\\& Stokes" B
 
 make_table ./src/tableTemplate.tex \
-	data/converted/tsurko_07_glutamic_acid_310_15.csv \
-	2007 \
-	tsurko2007 \
-	"Tsurko, Neueder \\\\\\& Kunz" B
+	data/converted/stokes_61_sucrose.csv \
+	1961 \
+	stokes1961 \
+	"Robinson \\\\\\& Stokes" B
 
 make_table ./src/tableTemplate.tex \
-	data/converted/tsurko_07_glycine_298_15.csv \
-	2007 \
-	tsurko2007 \
-	"Tsurko, Neueder \\\\\\& Kunz" B
+	data/converted/stokes_61_sucrose_mannitol.csv \
+	1961 \
+	stokes1961 \
+	"Robinson \\\\\\& Stokes" T
 
 make_table ./src/tableTemplate.tex \
-	data/converted/tsurko_07_glycine_310_15.csv \
-	2007 \
-	tsurko2007 \
-	"Tsurko, Neueder \\\\\\& Kunz" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/tsurko_07_histidine_298_15.csv \
-	2007 \
-	tsurko2007 \
-	"Tsurko, Neueder \\\\\\& Kunz" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/tsurko_07_histidine_310_15.csv \
-	2007 \
-	tsurko2007 \
-	"Tsurko, Neueder \\\\\\& Kunz" B
-
-make_table ./src/tableTemplate.tex \
-	data/converted/norrish_66_sucrose_glycerol.csv \
+	data/converted/stokes_66_sucrose_arabinose_ref_sucrose.csv \
 	1966 \
-	norrish1966 \
-	"Norrish" T
+	stokes \
+	"Stokes \\\\\\& Robinson" T
 
 make_table ./src/tableTemplate.tex \
-	data/converted/norrish_66_sorbitol_sucrose.csv \
+	data/converted/stokes_66_sucrose_glucose_ref_sucrose.csv \
 	1966 \
-	norrish1966 \
-	"Norrish" T
+	stokes \
+	"Stokes \\\\\\& Robinson" T
+
+make_table ./src/tableTemplate.tex \
+	data/converted/stokes_66_sucrose_glycerol_ref_sucrose.csv \
+	1966 \
+	stokes \
+	"Stokes \\\\\\& Robinson" T
+
+make_table ./src/tableTemplate.tex \
+	data/converted/stokes_66_sucrose_sorbitol_ref_sucrose.csv \
+	1966 \
+	stokes \
+	"Stokes \\\\\\& Robinson" T
+
+make_table ./src/tableTemplate.tex \
+	data/converted/tsurko_07_glutamic_acid_298_15_K.csv \
+	2007 \
+	tsurko2007 \
+	"Tsurko, Neueder \\\\\\& Kunz" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/tsurko_07_glutamic_acid_310_15_K.csv \
+	2007 \
+	tsurko2007 \
+	"Tsurko, Neueder \\\\\\& Kunz" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/tsurko_07_glycine_298_15_K.csv \
+	2007 \
+	tsurko2007 \
+	"Tsurko, Neueder \\\\\\& Kunz" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/tsurko_07_glycine_310_15_K.csv \
+	2007 \
+	tsurko2007 \
+	"Tsurko, Neueder \\\\\\& Kunz" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/tsurko_07_histidine_298_15_K.csv \
+	2007 \
+	tsurko2007 \
+	"Tsurko, Neueder \\\\\\& Kunz" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/tsurko_07_histidine_310_15_K.csv \
+	2007 \
+	tsurko2007 \
+	"Tsurko, Neueder \\\\\\& Kunz" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_fructose_298_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_fructose_303_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_fructose_308_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_glucose_298_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_glucose_303_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_glucose_308_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_maltose_298_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_maltose_303_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_maltose_308_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_sucrose_298_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_sucrose_303_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_sucrose_308_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" B
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_fructose_glucose_sucrose_298_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" Q
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_fructose_glucose_sucrose_303_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" Q
+
+make_table ./src/tableTemplate.tex \
+	data/converted/velezmoro_00_fructose_glucose_sucrose_308_15_K.csv \
+	2000 \
+	velezmoro2000 \
+	"Velezmoro \\\textit{et al.}" Q
 
