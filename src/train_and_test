@@ -1,0 +1,39 @@
+#! /bin/bash
+
+for model in norrish virial uniquac
+do
+	(
+	echo "test_minus_train,raoult_minus_train"
+	for file in data/converted/train/*.csv
+	do
+		name=$(basename $file)
+		trainfile=data/converted/train/$name
+		testfile=data/converted/test/$name
+		export kopts=$(./bin/FitWaterActivity -m $model \
+				-F /tmp/file.csv -A -q \
+				-f $trainfile -M 20000 \
+			| grep "b_0\|K_0\|A_01\|A_10" \
+			| tr '\t ' ',' \
+			| cut -d ',' -f 4 \
+			| sed "s/^.*e-0[6-9].*$/0.0/" \
+			| tr '\n' ' ' \
+			| sed "s/\ $/\n/")
+		./bin/FitWaterActivity -m $model \
+				-K $kopts \
+				-F /tmp/file.csv -A -q \
+				-f $testfile -M 20000 \
+			| grep initial | tr -d '\t ' | cut -d '=' -f 2 \
+			| tr '\n' ','
+		./bin/FitWaterActivity -m $model \
+				-F /tmp/file.csv -A -q \
+				-f $testfile -M 20000 \
+			| grep final | tr -d '\t ' | cut -d '=' -f 2 \
+			| tr '\n' ','
+		./bin/FitWaterActivity -m raoult \
+				-F /tmp/file.csv -A -q \
+				-f $testfile -M 20000 \
+			| grep final | tr -d '\t ' | cut -d '=' -f 2
+	done | awk -F ',' '{print sqrt(($2-$1)^2)","sqrt(($2-$3)^2)}'
+	) | tee /tmp/train_and_test_${model}.csv
+done
+
